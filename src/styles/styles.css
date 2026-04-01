@@ -1,0 +1,116 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~bootstrap-icons/font/bootstrap-icons.css';
+
+@import 'adaptive.css';
+@import 'sidebar.css';
+@import "sign-up.css";
+
+@font-face {
+    font-family: 'Roboto Regular';
+    src: url('../fonts/Roboto_regular.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto Medium';
+    src: url('../fonts/Roboto_medium.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto Bold';
+    src: url('../fonts/Roboto_bold.ttf');
+}
+
+.font-roboto {
+    font-family: 'Roboto Regular', sans-serif !important;
+}
+
+.font-roboto-medium {
+    font-family: 'Roboto Medium', sans-serif !important;
+}
+
+.font-roboto-bold {
+    font-family: 'Roboto Bold', sans-serif !important;
+}
+
+.btn-group {
+    font-family: 'Roboto Medium', sans-serif !important;
+}
+
+.btn {
+    font-family: 'Roboto Medium', sans-serif !important;
+}
+
+
+.fs-12 {
+    font-size: 12px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+
+.text-dark-blue {
+    color: #052C65 !important;
+    font-family: 'Roboto Regular', sans-serif !important;
+    font-size: 14px;
+}
+
+.text-dark-blue-medium {
+    color: #052C65 !important;
+    font-family: 'Roboto Medium', sans-serif !important;
+}
+
+.text-dark-blue-bold {
+    color: #052C65 !important;
+    font-family: 'Roboto Bold', sans-serif !important;
+}
+
+.logo {
+    width: 98px;
+    height: 40px;
+}
+
+.custom-card-title-text {
+    font-family: 'Roboto Medium', sans-serif !important;
+    font-size: 28px;
+    color: #290661;
+}
+
+.bi-plus {
+    color: #CED4DA;
+}
+
+input:focus {
+    color: unset !important;
+    background-color: unset !important;
+    border-color: unset !important;
+    outline: unset !important;
+    box-shadow: unset !important;
+}
+
+.width-100{
+    width: 100px;
+}
+
+.outline-secondary {
+    text-decoration: underline var(--bs-secondary);
+}
+
+canvas {
+    width: 500px !important;
+    height: 500px !important;
+}
+
+.pe-122px {
+    padding-right: 122px;
+}
+
+
+
+
+
+
+
+
+

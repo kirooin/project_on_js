@@ -1,0 +1,11 @@
+.input-group-text{
+    color: #6C757D !important ;
+}
+.form-check-input {
+    border-radius: 0.25rem !important;
+}
+
+.form-check-input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}

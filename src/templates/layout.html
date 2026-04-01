@@ -1,0 +1,98 @@
+<!-- Кнопка бургер - видна только на мобилках -->
+<button class="btn btn-primary position-fixed m-3 d-lg-none" style="z-index: 1040;" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+    <i class="bi bi-list fs-2"></i>
+</button>
+
+<!-- ===================== -->
+<!-- САЙДБАР -->
+<!-- ===================== -->
+<div class="sidebar">
+<div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+    <!-- Шапка offcanvas (только для мобилок) -->
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="mobileSidebarLabel">Меню</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
+    </div>
+    <!-- Тело offcanvas (на мобилках - ТОЛЬКО ИКОНКИ) -->
+    <div class="offcanvas-body p-0">
+        <!-- Навигация с иконками (для мобилок текст скрыт) -->
+        <ul class="nav nav-pills flex-column gap-2 p-3">
+            <li class="nav-item">
+                <a class="nav-link text-center py-3" href="#">
+                    <i class="bi bi-house-door fs-3 d-block"></i>
+                    <span class="d-none">Главная</span> <!-- Текст скрыт -->
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-center py-3" href="#">
+                    <i class="bi bi-person fs-3 d-block"></i>
+                    <span class="d-none">Профиль</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-center py-3" href="#">
+                    <i class="bi bi-envelope fs-3 d-block"></i>
+                    <span class="d-none">Сообщения</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-center py-3" href="#">
+                    <i class="bi bi-gear fs-3 d-block"></i>
+                    <span class="d-none">Настройки</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+<!-- ===================== -->
+<!-- ДЕСКТОПНЫЙ САЙДБАР (с текстом) -->
+<!-- ===================== -->
+<div class="sidebar">
+
+<div class="d-none d-lg-flex flex-column flex-shrink-0  bg-light vh-100 position-fixed border-end" style="width: 219px;">
+    <a href="#/" class=" d-flex align-items-center justify-content-center pt-5 pb-3 text-decoration-none border-bottom col-12">
+        <img src="/static/logo.png" alt="" class="logo">
+    </a>
+    <ul class="nav nav-pills flex-column mb-auto gap-1 mt-5 col-12 px-3">
+        <li class="nav-item">
+            <a href="#" class="nav-link text-dark-blue  active" aria-current="page">
+                <i class="bi bi-house me-2"></i>
+                Главная
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/#/income-expenses" class="nav-link text-dark-blue" aria-current="page">
+                <i class="bi bi-cash-coin me-2"></i>
+                Доходы & Расходы
+            </a>
+        </li>
+        <li class="nav-item ">
+            <div class="dropdown ">
+                <button class="btn  dropdown-toggle text-dark-blue col-12" type="button" data-bs-toggle="dropdown" id="dropdown-btn">
+                    Категории
+                    <i class="bi bi-chevron-right ps-10" id="chevron-right"></i>
+                    <i class="bi bi-chevron-down ps-10 d-none" id="chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu bg-white col-12 border-primary border" id="dropdown-menu">
+                    <li><a class="dropdown-item text-primary col-12" href="/#/income">Доходы</a></li>
+                    <li><a class="dropdown-item text-primary col-12" href="/#/expenses">Расходы</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+   <div class="col-12 px-3 pb-3 text-dark-blue-medium">
+       Баланс: <span class="text-primary">500$</span>
+   </div>
+   <div  class=" border-top col-12">
+       <a href="#" class="d-flex justify-content-center align-items-center text-decoration-none pt-3 pb-4 " data-bs-toggle="dropdown">
+           <i class="bi bi-person me-3 img-person-circle" ></i>
+           <strong class="text-dark-blue">Roman Chernov</strong>
+       </a>
+   </div>
+
+</div>
+
+</div>
+
+<main class="p-4" style="margin-left: 0; margin-top: 60px;" id="content-layout"></main>
