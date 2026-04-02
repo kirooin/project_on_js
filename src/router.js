@@ -1,5 +1,6 @@
 import {Sidebar} from "./components/sidebar";
 import { chartsManager } from './components/chart.js';
+import {Login} from "./components/login";
 
 
 export class Router {
@@ -23,6 +24,9 @@ export class Router {
                 title: 'Главная',
                 filePathTemplate: '/templates/login.html',
                 useLayout: false,
+                load() {
+                    new Login();
+                }
             },
             {
                 route: '#/sign-up',

@@ -106,6 +106,10 @@ canvas {
     padding-right: 122px;
 }
 
+.border-red {
+    border-color: var(--bs-form-invalid-border-color);
+}
+
 
 
 
