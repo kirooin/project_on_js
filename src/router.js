@@ -22,11 +22,13 @@ export class Router {
                 route: '#/login',
                 title: 'Главная',
                 filePathTemplate: '/templates/login.html',
+                useLayout: false,
             },
             {
                 route: '#/sign-up',
                 title: 'Главная',
                 filePathTemplate: '/templates/sign-up.html',
+                useLayout: false,
             },
             {
                 route: '#/income',
