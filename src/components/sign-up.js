@@ -39,7 +39,7 @@ export class SignUp {
             isValid = false;
         }
 
-        if (this.passwordElement.value) {
+        if (this.passwordElement.value && this.passwordElement.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)) {
             this.passwordElement.classList.remove('is-invalid');
             this.passwordElement.previousElementSibling.classList.remove('border-red');
         } else {
