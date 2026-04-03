@@ -1,14 +1,17 @@
+import config from "../config/config";
+
 export class SignUp {
- constructor() {
+    constructor() {
 
-     this.nameElement = document.getElementById('name');
-     this.lastNameElement = document.getElementById('last-name');
-     this.emailElement = document.getElementById('email');
-     this.passwordElement = document.getElementById('password');
-     this.passwordRepeatElement = document.getElementById('password-repeat');
+        this.nameElement = document.getElementById('name');
+        this.lastNameElement = document.getElementById('last-name');
+        this.emailElement = document.getElementById('email');
+        this.passwordElement = document.getElementById('password');
+        this.passwordRepeatElement = document.getElementById('password-repeat');
+        this.commonErrorElement = document.getElementById('common-error');
 
-     document.getElementById('process-button').addEventListener('click', this.validateForm.bind(this));
- }
+        document.getElementById('process-button').addEventListener('click', this.signUp.bind(this));
+    }
 
     validateForm() {
         let isValid = true;
@@ -57,6 +60,33 @@ export class SignUp {
         }
 
         return isValid;
+    }
+
+    async signUp() {
+        this.commonErrorElement.style.display = 'none'
+        if (this.validateForm()) {
+            const result = await fetch(config.api + '/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: this.nameElement.value,
+                    lastName: this.lastNameElement.value,
+                    email: this.emailElement.value,
+                    password: this.passwordElement.value,
+                    passwordRepeat: this.passwordRepeatElement.value,
+                })
+            })
+            console.log(result.status, result)
+            if (result.status === 400) {
+                this.commonErrorElement.style.display = 'block';
+                return;
+            }
+
+            location.href = '/#/login'
+        }
     }
 
 }
