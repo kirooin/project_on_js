@@ -1,6 +1,7 @@
 import {Sidebar} from "./components/sidebar";
 import { chartsManager } from './components/chart.js';
 import {Login} from "./components/login";
+import {SignUp} from "./components/sign-up";
 
 
 export class Router {
@@ -33,6 +34,9 @@ export class Router {
                 title: 'Главная',
                 filePathTemplate: '/templates/sign-up.html',
                 useLayout: false,
+                load() {
+                    new SignUp();
+                }
             },
             {
                 route: '#/income',

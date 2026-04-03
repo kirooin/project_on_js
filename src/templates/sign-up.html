@@ -10,42 +10,45 @@
                 <div class="mb-2">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <input type="text" class="form-control" placeholder="Имя">
+                        <input id="name" type="text" class="form-control" placeholder="Имя">
+                        <span id="email-name" class="error invalid-feedback">Введите ваше имя</span>
                     </div>
                 </div>
                 <div class="mb-2">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <input type="text" class="form-control" placeholder="Фамилия">
+                        <input id="last-name" type="text" class="form-control" placeholder="Фамилия">
+                        <span id="last-name-error" class="error invalid-feedback">Введите вашу фамилию</span>
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                        <input type="email" class="form-control" placeholder="Электронная почта">
+                        <input id="email" type="email" class="form-control" placeholder="Электронная почта">
+                        <span id="email-error" class="error invalid-feedback">Введите ваше почту</span>
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <input type="password" class="form-control" placeholder="Пароль">
+                        <input id="password" type="password" class="form-control" placeholder="Пароль">
+                        <span id="password-error" class="error invalid-feedback">Введите ваш пароль</span>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <input type="password" class="form-control" placeholder="Подтверждение пароля">
+                        <input id="password-repeat" type="password" class="form-control" placeholder="Подтверждение пароля">
+                        <span id="password-repeat-error" class="error invalid-feedback">Пароли не совпадают</span>
                     </div>
                 </div>
 
-                <a href="/#/" class="text-decoration-none text-white">
-                <button type="button" class="btn btn-primary w-100 py-2 mb-3">
+                <button id="process-button" type="button" class="btn btn-primary w-100 py-2 mb-3">
                         Войти
                 </button>
-                </a>
 
                 <p class="text-center mb-0 font-roboto fs-12">
                     Уже есть аккаунт? <a href="/#/login" class="text-primary ms-2">Войдите в систему</a>
