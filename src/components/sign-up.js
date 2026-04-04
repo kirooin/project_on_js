@@ -85,7 +85,9 @@ export class SignUp {
                 return;
             }
 
-            location.href = '/#/login'
+            if (result.status === 200 && result.ok) {
+                location.href = '/#/login'
+            }
         }
     }
 

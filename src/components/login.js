@@ -1,3 +1,6 @@
+import config from "../config/config";
+import {AuthUtils} from "../utils/auth-utils";
+
 export class Login {
     constructor() {
 
@@ -6,7 +9,10 @@ export class Login {
         this.passwordElement = document.getElementById('password');
         this.rememberElement = document.getElementById('remember-me');
 
-        document.getElementById('process-button').addEventListener('click', this.validateForm.bind(this));
+
+        this.commonErrorElement = document.getElementById('common-error');
+
+        document.getElementById('process-button').addEventListener('click', this.login.bind(this));
     }
 
     validateForm() {
@@ -30,5 +36,30 @@ export class Login {
             isValid = false;
         }
         return isValid;
+    }
+
+    async login() {
+        this.commonErrorElement.style.display = 'none';
+        if (this.validateForm()) {
+            const result = await fetch(config.api + '/login', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: this.emailElement.value,
+                    password: this.passwordElement.value,
+                    rememberMe: this.rememberElement.checked,
+                })
+            })
+            if (result.status === 401) {
+                this.commonErrorElement.style.display = 'block';
+                return;
+            }
+
+            const data = await result.json();
+           
+        }
     }
 }
