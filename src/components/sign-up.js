@@ -1,4 +1,5 @@
 import config from "../config/config";
+import {HttpUtils} from "../utils/http-utils";
 
 export class SignUp {
     constructor() {
@@ -65,29 +66,19 @@ export class SignUp {
     async signUp() {
         this.commonErrorElement.style.display = 'none'
         if (this.validateForm()) {
-            const result = await fetch(config.api + '/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: this.nameElement.value,
-                    lastName: this.lastNameElement.value,
-                    email: this.emailElement.value,
-                    password: this.passwordElement.value,
-                    passwordRepeat: this.passwordRepeatElement.value,
-                })
+            const result = await HttpUtils.request('/signup', 'POST', {
+                name: this.nameElement.value,
+                lastName: this.lastNameElement.value,
+                email: this.emailElement.value,
+                password: this.passwordElement.value,
+                passwordRepeat: this.passwordRepeatElement.value,
             })
-            console.log(result.status, result)
-            if (result.status === 400) {
+            if (result.error || !result.response || (result.response && (!result.response.user.id || !result.response.user.email || !result.response.user.name || !result.response.user.lastName))) {
                 this.commonErrorElement.style.display = 'block';
                 return;
             }
-
-            if (result.status === 200 && result.ok) {
-                location.href = '/#/login'
-            }
+            location.href = '/#/login'
+       
         }
     }
 

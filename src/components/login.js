@@ -1,5 +1,6 @@
 import config from "../config/config";
 import {AuthUtils} from "../utils/auth-utils";
+import {HttpUtils} from "../utils/http-utils";
 
 export class Login {
     constructor() {
@@ -41,25 +42,21 @@ export class Login {
     async login() {
         this.commonErrorElement.style.display = 'none';
         if (this.validateForm()) {
-            const result = await fetch(config.api + '/login', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: this.emailElement.value,
-                    password: this.passwordElement.value,
-                    rememberMe: this.rememberElement.checked,
-                })
+         const result = await HttpUtils.request('/login', 'POST', {
+                email: this.emailElement.value,
+                password: this.passwordElement.value,
+                rememberMe: this.rememberElement.checked,
             })
-            if (result.status === 401) {
+            console.log(result.response)
+
+            if (result.error || !result.response || (result.response && (!result.response.tokens.accessToken || !result.response.tokens.refreshToken || !result.response.user.id || !result.response.user.name))) {
                 this.commonErrorElement.style.display = 'block';
                 return;
             }
 
-            const data = await result.json();
-           
+            AuthUtils.setAuthInfo(result.response.tokens.accessToken, result.response.tokens.refreshToken, {id: result.response.user.id, name: result.response.user.name, lastName: result.response.user.lastName});
+
+            location.href = '/#/';
         }
     }
 }
