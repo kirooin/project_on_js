@@ -1,10 +1,12 @@
-import config from "../config/config";
-import {AuthUtils} from "../utils/auth-utils";
-import {HttpUtils} from "../utils/http-utils";
+import {AuthUtils} from "../../utils/auth-utils";
+import {HttpUtils} from "../../utils/http-utils";
 
 export class Login {
     constructor() {
 
+        if (AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
+            return location.href = '/#/'
+        }
 
         this.emailElement = document.getElementById('email');
         this.passwordElement = document.getElementById('password');

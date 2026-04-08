@@ -1,9 +1,12 @@
-import config from "../config/config";
-import {HttpUtils} from "../utils/http-utils";
+import {HttpUtils} from "../../utils/http-utils";
+import {AuthUtils} from "../../utils/auth-utils";
 
 export class SignUp {
     constructor() {
 
+        if (AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
+            return location.href = '/#/'
+        }
         this.nameElement = document.getElementById('name');
         this.lastNameElement = document.getElementById('last-name');
         this.emailElement = document.getElementById('email');
