@@ -7,7 +7,6 @@ class ChartsManager {
     }
 
     init() {
-        // Диаграмма 1
         this.chart1 = new Chart('chart1', {
             type: 'pie',
             data: {

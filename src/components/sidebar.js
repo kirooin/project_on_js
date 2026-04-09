@@ -14,7 +14,6 @@ export class Sidebar {
         if (!sidebar) {
             return
         }
-        console.log('sidebar initialized');
     }
 
     testClick() {

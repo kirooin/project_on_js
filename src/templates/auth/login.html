@@ -1,0 +1,45 @@
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class=" border-0" style="width: 450px;">
+        <div class="card-body p-5">
+            <div class="text-center mb-1">
+                <img src="/static/sign-up_login_logo.png" alt="" class="logo mb-5" style="width: 171px; height: 70px">
+                <h2 class="mt-3 text-dark-blue-medium fs-1 mb-3">Вход</h2>
+            </div>
+            <div id="common-error" class="error invalid-feedback text-center mb-3">Не удалось авторизоваться. Обратитесь в поддержку
+            </div>
+            <form>
+                <div class="mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input type="email" class="form-control" placeholder="Электронная почта" id="email">
+                        <span id="email-error" class="error invalid-feedback">Введите корректный Email</span>
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input id="password" type="password" class="form-control" placeholder="Пароль">
+                        <span id="password-error" class="error invalid-feedback">Введите корректный Email</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="input-group d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input me-2 mt-0" name="checkbox" id="remember-me">
+                        <label for="remember-me" class="form-check-label fs-12 text-black font-roboto">Запомнить
+                            меня </label>
+                    </div>
+                </div>
+
+                <button id="process-button" type="button" class="btn btn-primary w-100 py-2 mb-3">
+                    Войти
+                </button>
+
+                <p class="text-center mb-0 font-roboto fs-12">
+                    Еще нет аккаунта? <a href="/#/sign-up" class="text-primary ms-2">Пройдите регистрацию</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
