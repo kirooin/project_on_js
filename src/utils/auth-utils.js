@@ -5,10 +5,12 @@ export class AuthUtils {
     static RefreshTokenKey = 'refreshToken';
     static userInfoKey = 'userInfo';
 
-    static setAuthInfo(authToken, refreshToken, userInfo) {
+    static setAuthInfo(authToken, refreshToken, userInfo = null) {
         localStorage.setItem(this.AccessTokenKey, authToken);
         localStorage.setItem(this.RefreshTokenKey, refreshToken);
-        localStorage.setItem(this.userInfoKey, JSON.stringify(userInfo));
+        if (userInfo) {
+            localStorage.setItem(this.userInfoKey, JSON.stringify(userInfo));
+        }
     }
 
     static removeAuthInfo() {
@@ -46,8 +48,8 @@ export class AuthUtils {
             if (response && response.status === 200) {
                 const tokens = await response.json()
                 if (tokens && !tokens.error) {
-                    AuthUtils.setAuthInfo(tokens.accessToken, tokens.refreshToken)
-                    console.log(tokens);
+                    AuthUtils.setAuthInfo(tokens.tokens.accessToken, tokens.tokens.refreshToken)
+                    console.log(tokens.tokens);
                     result = true;
                 }
             }
