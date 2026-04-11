@@ -3,6 +3,7 @@ import {chartsManager} from './components/chart.js';
 import {Login} from "./components/auth/login";
 import {SignUp} from "./components/auth/sign-up";
 import {AuthUtils} from "./utils/auth-utils";
+import {Balance} from "./components/balance";
 
 
 export class Router {
@@ -39,7 +40,6 @@ export class Router {
                 filePathTemplate: '/templates/auth/sign-up.html',
                 useLayout: false,
                 load() {
-
                     new SignUp();
                 }
             },
@@ -58,7 +58,8 @@ export class Router {
                 route: '#/expenses',
                 title: 'Расходы',
                 filePathTemplate: '/templates/expenses.html',
-                useLayout: '/templates/layout.html', load() {
+                useLayout: '/templates/layout.html',
+                load() {
                     if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
                         return location.href = '/#/login';
                     }
@@ -68,7 +69,8 @@ export class Router {
                 route: '#/create-category',
                 title: 'Создание категории доходов',
                 filePathTemplate: '/templates/create-category.html',
-                useLayout: '/templates/layout.html', load() {
+                useLayout: '/templates/layout.html',
+                load() {
                     if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
                         return location.href = '/#/login';
                     }
@@ -140,6 +142,7 @@ export class Router {
                     contentBlock.innerHTML = await fetch(newRoute.useLayout).then(response => response.text());
                     contentBlock = document.getElementById('content-layout');
                     new Sidebar();
+                    new Balance();
                 }
                 contentBlock.innerHTML = await fetch(newRoute.filePathTemplate).then(response => response.text());
             }
