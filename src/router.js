@@ -4,6 +4,8 @@ import {Login} from "./components/auth/login";
 import {SignUp} from "./components/auth/sign-up";
 import {AuthUtils} from "./utils/auth-utils";
 import {Balance} from "./components/balance";
+import {IncomeExpenses} from "./components/income-expenses";
+import {ExpensesView} from "./components/categories/expenses/expenses-view";
 
 
 export class Router {
@@ -46,18 +48,32 @@ export class Router {
             {
                 route: '#/income',
                 title: 'Доходы',
-                filePathTemplate: '/templates/income.html',
+                filePathTemplate: '/templates/categories/income/view.html',
                 useLayout: '/templates/layout.html',
                 load() {
-                    if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
-                        return location.href = '/#/login';
-                    }
+                }
+            },
+            {
+                route: '#/income/edit',
+                title: 'Редактировать доход',
+                filePathTemplate: '/templates/categories/income/edit.html',
+                useLayout: '/templates/layout.html',
+                load() {
                 }
             },
             {
                 route: '#/expenses',
                 title: 'Расходы',
-                filePathTemplate: '/templates/expenses.html',
+                filePathTemplate: '/templates/categories/expenses/view.html',
+                useLayout: '/templates/layout.html',
+                load() {
+                    new ExpensesView();
+                }
+            },
+            {
+                route: '#/expenses/edit',
+                title: 'Редактировать расход',
+                filePathTemplate: '/templates/categories/expenses/edit.html',
                 useLayout: '/templates/layout.html',
                 load() {
                     if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
@@ -115,9 +131,7 @@ export class Router {
                 filePathTemplate: '/templates/income-expenses.html',
                 useLayout: '/templates/layout.html',
                 load() {
-                    if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
-                        return location.href = '/#/login';
-                    }
+                    new IncomeExpenses()
                 }
             },
         ]
@@ -133,6 +147,7 @@ export class Router {
         const urlRoute = window.location.hash;
         const newRoute = this.routes.find(route => route.route === urlRoute);
         if (newRoute) {
+
             if (newRoute.title) {
                 this.pageTitle.innerText = newRoute.title + ' | Lumincoin Finance';
             }
@@ -149,6 +164,7 @@ export class Router {
             if (newRoute.load && typeof newRoute.load === 'function') {
                 newRoute.load();
             }
+
         } else {
             window.location.href = '#/';
         }
