@@ -6,6 +6,9 @@ import {AuthUtils} from "./utils/auth-utils";
 import {Balance} from "./components/balance";
 import {IncomeExpenses} from "./components/income-expenses";
 import {ExpensesView} from "./components/categories/expenses/expenses-view";
+import {ExpensesEdit} from "./components/categories/expenses/expenses-edit";
+import {ExpensesDelete} from "./components/categories/expenses/expenses-delete";
+import {ExpensesCreate} from "./components/categories/expenses/expenses-create";
 
 
 export class Router {
@@ -76,11 +79,27 @@ export class Router {
                 filePathTemplate: '/templates/categories/expenses/edit.html',
                 useLayout: '/templates/layout.html',
                 load() {
-                    if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
-                        return location.href = '/#/login';
-                    }
+                    new ExpensesEdit()
+
                 }
             },
+            {
+                route: '#/expenses/create',
+                title: 'Создать расход',
+                filePathTemplate: '/templates/categories/expenses/create.html',
+                useLayout: '/templates/layout.html',
+                load() {
+                    new ExpensesCreate()
+
+                }
+            },
+            {
+                route: '#/expenses/delete',
+                load() {
+                    new ExpensesDelete()
+                }
+            },
+
             {
                 route: '#/create-category',
                 title: 'Создание категории доходов',
@@ -144,7 +163,7 @@ export class Router {
     }
 
     async activateRoute() {
-        const urlRoute = window.location.hash;
+        const urlRoute = window.location.hash.split('?')[0];
         const newRoute = this.routes.find(route => route.route === urlRoute);
         if (newRoute) {
 

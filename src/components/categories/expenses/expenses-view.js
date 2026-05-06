@@ -1,14 +1,12 @@
 import {HttpUtils} from "../../../utils/http-utils";
-import config from "../../../config/config";
-import {AuthUtils} from "../../../utils/auth-utils";
 
 export class ExpensesView {
     constructor() {
-        if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
-            return location.href = '/#/login';
-        }
+
         this.row = document.getElementById('row')
-        this.getExpenses().then();
+        if (this.row) {
+            this.getExpenses().then();
+        }
     }
 
     async getExpenses() {
@@ -26,9 +24,34 @@ export class ExpensesView {
         this.row.innerHTML = '';
         this.createCards(expenses);
         this.createAddCard();
-        // сделать чтобы при нажатии на кнопку редактивротьва открывалась страница с редактированием именно этой категории
-        // сделать чтобы при нажати на удалить открывался попап и удалялась именно эта категория
+        console.log(expenses);
+
+        // сделать починить функцию deleteBtnHandler() чтобы правильно работала и не удаляла сразу много категорий
+        // this.deleteBtnHandler()
+        // document.querySelectorAll('.link-delete').forEach(el => {
+        //
+        // })
+
+        document.querySelectorAll('.link-delete').forEach(el => {
+            
+        })
+
     }
+
+
+    // deleteBtnHandler() {
+    //     const deleteBtn = document.querySelectorAll('.link-delete');
+    //     deleteBtn.forEach(button => {
+    //         button.addEventListener('click',  function () {
+    //            const id = this.id.split('-')[1]
+    //             document.addEventListener('click', async (e) => {
+    //                 if (e.target.id === 'accept-btn') {
+    //                   location.href = '/#/expenses/delete?=' + id;
+    //                 }
+    //             });
+    //         })
+    //     })
+    // }
 
     createCards(expenses) {
         expenses.forEach(expense => {
@@ -49,7 +72,7 @@ export class ExpensesView {
             btnGroup.classList.add('btn-group', 'pb-2');
 
             const linkEdit = document.createElement('a');
-            linkEdit.href = '/#/expenses/edit/' + expense.id;
+            linkEdit.href = '/#/expenses/edit?id=' + expense.id;
             linkEdit.classList.add('card-link', 'text-decoration-none');
             const btnEdit = document.createElement('button');
             btnEdit.classList.add('btn', 'btn-primary');
@@ -58,7 +81,7 @@ export class ExpensesView {
             const linkDelete = document.createElement('a');
             linkDelete.href = 'javascript:void(0)';
             linkDelete.setAttribute('id', 'linkDelete-' + expense.id);
-            linkDelete.classList.add('card-link', 'text-decoration-none');
+            linkDelete.classList.add('card-link', 'text-decoration-none', 'link-delete');
             const btnDelete = document.createElement('button');
             btnDelete.setAttribute('data-bs-toggle', 'modal');
             btnDelete.setAttribute('data-bs-target', '#deleteModal');
@@ -85,7 +108,7 @@ export class ExpensesView {
         col.className = 'col';
 
         const link = document.createElement('a');
-        link.href = 'javascript:void(0)';
+        link.href = '/#/expenses/create';
         link.className = 'text-decoration-none';
 
         const card = document.createElement('div');
