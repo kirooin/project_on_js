@@ -7,6 +7,8 @@ export class ExpensesView {
         if (this.row) {
             this.getExpenses().then();
         }
+
+
     }
 
     async getExpenses() {
@@ -20,38 +22,17 @@ export class ExpensesView {
         this.showExpenses(result.response);
     }
 
+
     showExpenses(expenses) {
         this.row.innerHTML = '';
         this.createCards(expenses);
         this.createAddCard();
         console.log(expenses);
-
-        // сделать починить функцию deleteBtnHandler() чтобы правильно работала и не удаляла сразу много категорий
-        // this.deleteBtnHandler()
-        // document.querySelectorAll('.link-delete').forEach(el => {
-        //
-        // })
-
-        document.querySelectorAll('.link-delete').forEach(el => {
-            
-        })
-
+        this.initDeleteButtons();
     }
 
 
-    // deleteBtnHandler() {
-    //     const deleteBtn = document.querySelectorAll('.link-delete');
-    //     deleteBtn.forEach(button => {
-    //         button.addEventListener('click',  function () {
-    //            const id = this.id.split('-')[1]
-    //             document.addEventListener('click', async (e) => {
-    //                 if (e.target.id === 'accept-btn') {
-    //                   location.href = '/#/expenses/delete?=' + id;
-    //                 }
-    //             });
-    //         })
-    //     })
-    // }
+
 
     createCards(expenses) {
         expenses.forEach(expense => {
@@ -128,4 +109,23 @@ export class ExpensesView {
 
         return this.row.appendChild(col);
     }
+
+    initDeleteButtons() {
+        const buttons = document.querySelectorAll('.link-delete');
+        buttons.forEach(button => {
+            button.addEventListener('click', (e) => this.handleDeleteClick(e))
+        })
+    }
+
+    handleDeleteClick(e) {
+        const button = e.currentTarget;
+        const buttonId = button.id.split('-')[1];
+        history.pushState(null, '', '#/expenses?id=' + buttonId);
+        const acceptBtn = document.getElementById('accept-delete');
+        if (acceptBtn) {
+            acceptBtn.href = '#/expenses/delete?id=' + buttonId;
+        }
+    }
+
+
 }

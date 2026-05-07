@@ -13,8 +13,8 @@ export class ExpensesDelete {
     }
 
 
-   async deleteExpense(id) {
+    async deleteExpense(id) {
         await HttpUtils.request('/categories/expense/' + id, 'DELETE', true)
-       location.href = '/#/expenses';
+        location.href = '/#/expenses';
     }
 }
