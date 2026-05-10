@@ -4,6 +4,11 @@ export class Sidebar {
         this.chevronDown = document.getElementById('chevron-down')
         this.chevronRight = document.getElementById('chevron-right')
         this.dropDownMenu = document.getElementById('dropdown-menu')
+        this.mainBtnLayoit = document.getElementById('layout-btn-main')
+        this.incomeExpenseBtn = document.getElementById('layout-btn-income-expenses')
+        this.income = document.getElementById('income')
+        this.expense = document.getElementById('expense')
+        this.locationHref = location.href.split('#')[1]
         this.initSidebar()
         this.testClick()
 
@@ -13,6 +18,37 @@ export class Sidebar {
         const sidebar = document.querySelector('.sidebar');
         if (!sidebar) {
             return
+        }
+        console.log(this.locationHref);
+        switch (this.locationHref) {
+            case '/':
+                this.mainBtnLayoit.classList.add('active');
+                break;
+            case '/income':
+                this.dropDownBtn.classList.add('bg-primary');
+                this.dropDownBtn.classList.add('show');
+                this.dropDownMenu.classList.add('show');
+                this.chevronDown.classList.remove('d-none')
+                this.chevronRight.classList.add('d-none')
+                this.dropDownBtn.classList.add('text-white');
+                this.dropDownMenu.style.marginTop = '-5px';
+                this.dropDownBtn.classList.remove('text-dark-blue');
+                this.income.classList.add('active', 'text-white');
+                break;
+            case '/expense':
+                this.dropDownBtn.classList.add('bg-primary');
+                this.dropDownBtn.classList.add('show');
+                this.dropDownMenu.classList.add('show');
+                this.chevronDown.classList.remove('d-none')
+                this.chevronRight.classList.add('d-none')
+                this.dropDownBtn.classList.add('text-white');
+                this.dropDownMenu.style.marginTop = '-5px';
+                this.dropDownBtn.classList.remove('text-dark-blue');
+                this.expense.classList.add('active', 'text-white');
+                break;
+            case '/income-expense':
+                this.incomeExpenseBtn.classList.add('active');
+                break;
         }
     }
 

@@ -1,41 +1,40 @@
-import {HttpUtils} from "../../../utils/http-utils";
+import {HttpUtils} from "../../utils/http-utils";
 
-export class ExpensesView {
-    constructor() {
-
-        this.row = document.getElementById('row')
+export class CategoryView {
+    constructor(category) {
+        this.category = category;
+        this.row = document.getElementById('row');
+        this.title = document.getElementById('view-title-category');
         if (this.row) {
-            this.getExpenses().then();
+            this.getCategories().then();
         }
-
-
     }
 
-    async getExpenses() {
-        const result = await HttpUtils.request('/categories/expense');
+    async getCategories() {
+        const result = await HttpUtils.request('/categories/' + this.category);
 
         if (result.error || !result.response || (result.response && result.response.error)) {
             console.log(result.response.message)
             return alert('Возникла ошибка при запросе расходов. Обратитесь в поддержку')
         }
 
-        this.showExpenses(result.response);
+        this.showCategories(result.response);
     }
 
-
-    showExpenses(expenses) {
+    showCategories(categories) {
+      if (this.category === 'income') {
+          this.title.innerText = 'Доходы'
+      } else {
+          this.title.innerText = 'Расходы'
+      }
         this.row.innerHTML = '';
-        this.createCards(expenses);
-        this.createAddCard();
-        console.log(expenses);
+        this.createCardsCategories(categories);
+        this.createAddCardCategories();
         this.initDeleteButtons();
     }
 
-
-
-
-    createCards(expenses) {
-        expenses.forEach(expense => {
+    createCardsCategories(categories) {
+        categories.forEach(category => {
             const col = document.createElement('div');
             col.classList.add('col');
 
@@ -47,13 +46,13 @@ export class ExpensesView {
 
             const cardTittle = document.createElement('div');
             cardTittle.classList.add('card-tittle', 'custom-card-title-text');
-            cardTittle.innerText = expense.title;
+            cardTittle.innerText = category.title;
 
             const btnGroup = document.createElement('div');
             btnGroup.classList.add('btn-group', 'pb-2');
 
             const linkEdit = document.createElement('a');
-            linkEdit.href = '/#/expenses/edit?id=' + expense.id;
+            linkEdit.href = '/#/' + this.category + '/edit?id=' + category.id;
             linkEdit.classList.add('card-link', 'text-decoration-none');
             const btnEdit = document.createElement('button');
             btnEdit.classList.add('btn', 'btn-primary');
@@ -61,7 +60,7 @@ export class ExpensesView {
 
             const linkDelete = document.createElement('a');
             linkDelete.href = 'javascript:void(0)';
-            linkDelete.setAttribute('id', 'linkDelete-' + expense.id);
+            linkDelete.setAttribute('id', 'linkDelete-' + category.id);
             linkDelete.classList.add('card-link', 'text-decoration-none', 'link-delete');
             const btnDelete = document.createElement('button');
             btnDelete.setAttribute('data-bs-toggle', 'modal');
@@ -84,12 +83,12 @@ export class ExpensesView {
         })
     }
 
-    createAddCard() {
+    createAddCardCategories() {
         const col = document.createElement('div');
         col.className = 'col';
 
         const link = document.createElement('a');
-        link.href = '/#/expenses/create';
+        link.href = '/#/' + this.category + '/create';
         link.className = 'text-decoration-none';
 
         const card = document.createElement('div');
@@ -120,12 +119,10 @@ export class ExpensesView {
     handleDeleteClick(e) {
         const button = e.currentTarget;
         const buttonId = button.id.split('-')[1];
-        history.pushState(null, '', '#/expenses?id=' + buttonId);
         const acceptBtn = document.getElementById('accept-delete');
         if (acceptBtn) {
-            acceptBtn.href = '#/expenses/delete?id=' + buttonId;
+            acceptBtn.href = '#/' + this.category + '/delete?id=' + buttonId;
         }
+
     }
-
-
 }

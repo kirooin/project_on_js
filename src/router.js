@@ -5,10 +5,10 @@ import {SignUp} from "./components/auth/sign-up";
 import {AuthUtils} from "./utils/auth-utils";
 import {Balance} from "./components/balance";
 import {IncomeExpenses} from "./components/income-expenses";
-import {ExpensesView} from "./components/categories/expenses/expenses-view";
-import {ExpensesEdit} from "./components/categories/expenses/expenses-edit";
-import {ExpensesDelete} from "./components/categories/expenses/expenses-delete";
-import {ExpensesCreate} from "./components/categories/expenses/expenses-create";
+import {CategoryView} from "./components/categories/category-view";
+import {CategoryCreate} from "./components/categories/category-create";
+import {CategoryEdit} from "./components/categories/category-edit";
+import {CategoryDelete} from "./components/categories/category-delete";
 
 
 export class Router {
@@ -51,77 +51,71 @@ export class Router {
             {
                 route: '#/income',
                 title: 'Доходы',
-                filePathTemplate: '/templates/categories/income/view.html',
+                filePathTemplate: '/templates/categories/view.html',
                 useLayout: '/templates/layout.html',
                 load() {
+                    new CategoryView('income')
+                }
+            },
+            {
+                route: '#/income/create',
+                title: 'Создать доход',
+                filePathTemplate: '/templates/categories/create.html',
+                useLayout: '/templates/layout.html',
+                load() {
+                    new CategoryCreate('income')
                 }
             },
             {
                 route: '#/income/edit',
                 title: 'Редактировать доход',
-                filePathTemplate: '/templates/categories/income/edit.html',
+                filePathTemplate: '/templates/categories/edit.html',
                 useLayout: '/templates/layout.html',
                 load() {
+                    new CategoryEdit('income')
                 }
             },
             {
-                route: '#/expenses',
+                route: '#/income/delete',
+                load() {
+                    new CategoryDelete('income')
+                }
+            },
+            {
+                route: '#/expense',
                 title: 'Расходы',
-                filePathTemplate: '/templates/categories/expenses/view.html',
+                filePathTemplate: '/templates/categories/view.html',
                 useLayout: '/templates/layout.html',
                 load() {
-                    new ExpensesView();
+                    new CategoryView('expense')
                 }
             },
             {
-                route: '#/expenses/edit',
+                route: '#/expense/edit',
                 title: 'Редактировать расход',
-                filePathTemplate: '/templates/categories/expenses/edit.html',
+                filePathTemplate: '/templates/categories/edit.html',
                 useLayout: '/templates/layout.html',
                 load() {
-                    new ExpensesEdit()
-
+                    new CategoryEdit('expense')
                 }
             },
             {
-                route: '#/expenses/create',
+                route: '#/expense/create',
                 title: 'Создать расход',
-                filePathTemplate: '/templates/categories/expenses/create.html',
+                filePathTemplate: '/templates/categories/create.html',
                 useLayout: '/templates/layout.html',
                 load() {
-                    new ExpensesCreate()
+                    new CategoryCreate('expense')
 
                 }
             },
             {
-                route: '#/expenses/delete',
+                route: '#/expense/delete',
                 load() {
-                    new ExpensesDelete()
+                    new CategoryDelete('expense')
                 }
             },
 
-            {
-                route: '#/create-category',
-                title: 'Создание категории доходов',
-                filePathTemplate: '/templates/create-category.html',
-                useLayout: '/templates/layout.html',
-                load() {
-                    if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
-                        return location.href = '/#/login';
-                    }
-                }
-            },
-            {
-                route: '#/edit-category',
-                title: 'Редактирование категории доходов',
-                filePathTemplate: '/templates/edit-category.html',
-                useLayout: '/templates/layout.html',
-                load() {
-                    if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
-                        return location.href = '/#/login';
-                    }
-                }
-            },
             {
                 route: '#/create-income-expenses',
                 title: 'Создание дохода/расхода',
@@ -145,7 +139,7 @@ export class Router {
                 }
             },
             {
-                route: '#/income-expenses',
+                route: '#/income-expense',
                 title: 'Доходы & Расходы',
                 filePathTemplate: '/templates/income-expenses.html',
                 useLayout: '/templates/layout.html',
