@@ -19,12 +19,13 @@ export class Sidebar {
         if (!sidebar) {
             return
         }
-        console.log(this.locationHref);
         switch (this.locationHref) {
             case '/':
                 this.mainBtnLayoit.classList.add('active');
                 break;
             case '/income':
+            case '/income/create':
+            case '/income/edit':
                 this.dropDownBtn.classList.add('bg-primary');
                 this.dropDownBtn.classList.add('show');
                 this.dropDownMenu.classList.add('show');
@@ -36,6 +37,8 @@ export class Sidebar {
                 this.income.classList.add('active', 'text-white');
                 break;
             case '/expense':
+            case '/expense/create':
+            case '/expense/edit':
                 this.dropDownBtn.classList.add('bg-primary');
                 this.dropDownBtn.classList.add('show');
                 this.dropDownMenu.classList.add('show');

@@ -8,20 +8,29 @@ export class CategoryEdit {
             return location.href = '/#/';
         }
         this.titleCategory = document.getElementById('title-category');
+        this.title = document.getElementById('edit-title-category')
+
+        this.cancelElement = document.getElementById('cancel-btn').href = '/#/' + this.category
+
+
 
         this.getTitle(this.id).then();
         document.getElementById('save-btn').addEventListener('click', this.updateTitle.bind(this));
 
-        this.title = document.getElementById('edit-title-category')
-        if (this.category === 'income') {
-            this.title.innerText = 'Редактирование категории доходов'
-        } else {
-            this.title.innerText = 'Редактирование категории расходов'
+        switch (this.category) {
+            case 'income':
+                this.title.innerText = 'Редактирование категории доходов'
+                break;
+            case 'expense':
+                this.title.innerText = 'Редактирование категории расходов'
+                break;
+            default:
+                this.title.innerText = 'Редактирование категории undefined'
         }
     }
 
     async getTitle(id) {
-        const result = await HttpUtils.request('/categories/' + this.category +'/' + id)
+        const result = await HttpUtils.request('/categories/' + this.category + '/' + id)
 
         if (result.error || !result.response || (result.response && result.response.error)) {
             console.log(result.response.message)
@@ -32,7 +41,7 @@ export class CategoryEdit {
     }
 
     async updateTitle() {
-        await HttpUtils.request('/categories/' + this.category +'/' + this.id, 'PUT', true, {
+        await HttpUtils.request('/categories/' + this.category + '/' + this.id, 'PUT', true, {
             title: this.titleCategory.value,
         });
 

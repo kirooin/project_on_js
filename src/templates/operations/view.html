@@ -2,8 +2,8 @@
     <h1 class="text-dark-blue-medium mb-5">Доходы и расходы</h1>
     <div class="row mb-5">
         <div class="d-flex gap-2 mb-4 font-roboto-medium">
-            <button class="btn btn-success">Создать доход</button>
-            <button class="btn btn-danger">Создать расход</button>
+            <a href="/#/income-expense/create/income"><button class="btn btn-success">Создать доход</button></a>
+            <a href="/#/income-expense/create/expense"><button class="btn btn-danger">Создать расход</button></a>
         </div>
         <div class="d-flex gap-3 align-items-center font-roboto-medium">
             <div class="btn btn-secondary py-1 px-3 width-100">Сегодня</div>
@@ -29,7 +29,7 @@
             <th scope="col" class="text-dark-blue-bold"></th>
         </tr>
         </thead>
-        <tbody class="font-roboto">
+        <tbody class="font-roboto" id="operations">
         <tr class="">
             <th scope="row" class="font-roboto-bold">1</th>
             <td class="text-success">доход</td>
@@ -38,8 +38,11 @@
             <td>11.09.2022</td>
             <td></td>
             <td>
-                <i class="bi bi-pencil me-2 cursor-pointer"></i>
-                <i class="bi bi-trash cursor-pointer"  data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+                <a class="text-decoration-none text-black" href="/#/income-expense/edit">
+                    <i class="bi bi-pencil me-2 cursor-pointer"></i>
+                </a>
+
+                <i class="bi bi-trash cursor-pointer" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
             </td>
         </tr>
         <tr>
@@ -70,3 +73,4 @@
         </div>
     </div>
 </div>
+

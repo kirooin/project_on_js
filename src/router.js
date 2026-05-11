@@ -2,13 +2,13 @@ import {Sidebar} from "./components/sidebar";
 import {chartsManager} from './components/chart.js';
 import {Login} from "./components/auth/login";
 import {SignUp} from "./components/auth/sign-up";
-import {AuthUtils} from "./utils/auth-utils";
 import {Balance} from "./components/balance";
-import {IncomeExpenses} from "./components/income-expenses";
 import {CategoryView} from "./components/categories/category-view";
 import {CategoryCreate} from "./components/categories/category-create";
 import {CategoryEdit} from "./components/categories/category-edit";
 import {CategoryDelete} from "./components/categories/category-delete";
+import {IncomeExpense} from "./components/income-expenses";
+import {OperationCreate} from "./components/operations/operaion-create";
 
 
 export class Router {
@@ -24,9 +24,6 @@ export class Router {
                 filePathTemplate: '/templates/main.html',
                 useLayout: '/templates/layout.html',
                 load() {
-                    if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
-                        return location.href = '/#/login';
-                    }
                     chartsManager.init();
                 }
             },
@@ -115,38 +112,43 @@ export class Router {
                     new CategoryDelete('expense')
                 }
             },
-
-            {
-                route: '#/create-income-expenses',
-                title: 'Создание дохода/расхода',
-                filePathTemplate: '/templates/create-income-expenses.html',
-                useLayout: '/templates/layout.html',
-                load() {
-                    if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
-                        return location.href = '/#/login';
-                    }
-                }
-            },
-            {
-                route: '#/edit-income-expenses',
-                title: 'Редактирование дохода/расхода',
-                filePathTemplate: '/templates/edit-income-expenses.html',
-                useLayout: '/templates/layout.html',
-                load() {
-                    if (!AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
-                        return location.href = '/#/login';
-                    }
-                }
-            },
             {
                 route: '#/income-expense',
                 title: 'Доходы & Расходы',
-                filePathTemplate: '/templates/income-expenses.html',
+                filePathTemplate: '/templates/operations/view.html',
                 useLayout: '/templates/layout.html',
                 load() {
-                    new IncomeExpenses()
+                    new IncomeExpense()
                 }
             },
+            {
+                route: '#/income-expense/create/income',
+                title: 'Создание дохода/расхода',
+                filePathTemplate: '/templates/operations/create.html',
+                useLayout: '/templates/layout.html',
+                load() {
+                    new OperationCreate()
+                }
+            },
+            {
+                route: '#/income-expense/create/expense',
+                title: 'Создание дохода/расхода',
+                filePathTemplate: '/templates/operations/create.html',
+                useLayout: '/templates/layout.html',
+                load() {
+                    new OperationCreate()
+                }
+            },
+            {
+                route: '#/income-expense/edit',
+                title: 'Редактирование дохода/расхода',
+                filePathTemplate: '/templates/operations/edit.html',
+                useLayout: '/templates/layout.html',
+                load() {
+
+                }
+            },
+
         ]
 
     }
