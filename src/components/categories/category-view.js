@@ -12,10 +12,12 @@ export class CategoryView {
 
     async getCategories() {
         const result = await HttpUtils.request('/categories/' + this.category);
-
+        if (result.redirect) {
+           return location.href = result.redirect;
+        }
         if (result.error || !result.response || (result.response && result.response.error)) {
             console.log(result.response.message)
-            return alert('Возникла ошибка при запросе расходов. Обратитесь в поддержку')
+            return alert('Возникла ошибка при запросе категорий. Обратитесь в поддержку')
         }
 
         this.showCategories(result.response);

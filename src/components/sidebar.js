@@ -1,3 +1,5 @@
+import {AuthUtils} from "../utils/auth-utils";
+
 export class Sidebar {
     constructor() {
         this.dropDownBtn = document.getElementById('dropdown-btn')
@@ -6,9 +8,11 @@ export class Sidebar {
         this.dropDownMenu = document.getElementById('dropdown-menu')
         this.mainBtnLayoit = document.getElementById('layout-btn-main')
         this.incomeExpenseBtn = document.getElementById('layout-btn-income-expenses')
+        this.userName = document.getElementById('user-name')
         this.income = document.getElementById('income')
         this.expense = document.getElementById('expense')
-        this.locationHref = location.href.split('#')[1]
+        // this.locationHref = location.href.split('#')[1]
+        this.locationHref = (location.href.split('#')[1] || '').split('?')[0];
         this.initSidebar()
         this.testClick()
 
@@ -18,6 +22,11 @@ export class Sidebar {
         const sidebar = document.querySelector('.sidebar');
         if (!sidebar) {
             return
+        }
+
+        const userInfo = JSON.parse(AuthUtils.getAuthInfo(AuthUtils.userInfoKey))
+        if (userInfo) {
+            this.userName.innerText = userInfo.name +  ' '  + userInfo.lastName
         }
         switch (this.locationHref) {
             case '/':

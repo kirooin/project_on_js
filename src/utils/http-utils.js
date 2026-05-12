@@ -41,13 +41,13 @@ export class HttpUtils {
             result.error = true;
             if (useAuth && response.status === 401) {
                 if (!token) {
-                    return location.href = '/#/login';
+                    result.redirect = '/#/login';
                 } else {
                     const updateTokenResult = await AuthUtils.updateRefreshTokenKey();
                     if (updateTokenResult) {
                         return this.request(url, method, useAuth, body);
                     } else {
-                        location.href = '/#/login';
+                        result.redirect = '/#/login';
                     }
                 }
             }

@@ -7,8 +7,9 @@ import {CategoryView} from "./components/categories/category-view";
 import {CategoryCreate} from "./components/categories/category-create";
 import {CategoryEdit} from "./components/categories/category-edit";
 import {CategoryDelete} from "./components/categories/category-delete";
-import {IncomeExpense} from "./components/income-expenses";
+import {IncomeExpense} from "./components/operations/operation-view";
 import {OperationCreate} from "./components/operations/operaion-create";
+import {OperationEdit} from "./components/operations/operation-edit";
 
 
 export class Router {
@@ -115,7 +116,7 @@ export class Router {
             {
                 route: '#/income-expense',
                 title: 'Доходы & Расходы',
-                filePathTemplate: '/templates/operations/view.html',
+                filePathTemplate: '/templates/operations/list.html',
                 useLayout: '/templates/layout.html',
                 load() {
                     new IncomeExpense()
@@ -145,7 +146,7 @@ export class Router {
                 filePathTemplate: '/templates/operations/edit.html',
                 useLayout: '/templates/layout.html',
                 load() {
-
+                    new OperationEdit()
                 }
             },
 

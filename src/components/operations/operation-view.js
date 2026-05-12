@@ -1,4 +1,5 @@
-import {HttpUtils} from "../utils/http-utils";
+import {HttpUtils} from "../../utils/http-utils";
+
 export class IncomeExpense {
     constructor() {
         this.getOperations().then();
@@ -8,12 +9,12 @@ export class IncomeExpense {
         const result = await HttpUtils.request('/operations')
 
         if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
-            return alert('Возникла ошибка при запросе заказов. Обратитесь в поддержку')
+            return alert('Возникла ошибка при запросе операций. Обратитесь в поддержку')
         }
         this.showOperations(result.response)
     }
     showOperations(operations) {
-        console.log(operations)
+        // console.log(operations)
         const tbody = document.getElementById('operations');
         operations.forEach(operation => {
             const trElement = document.createElement('tr');

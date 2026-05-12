@@ -9,7 +9,7 @@ export class OperationCreate {
         this.amountElement = document.getElementById('amount-input');
         this.dateElement = document.getElementById('date-input');
         this.commentElemet = document.getElementById('comm-input');
-
+        this.amountError = document.getElementById('amount-error')
         this.showInputs().then();
 
 
@@ -28,9 +28,9 @@ export class OperationCreate {
                 this.categoriesElement.value = 'expense';
                 break;
         }
-
+        await this.getBalance()
         const categories = await this.getCategories(this.category);
-        console.log(categories)
+        // console.log(categories)
         if (categories) {
             categories.forEach(category => {
                 const option = document.createElement('option');
@@ -57,15 +57,34 @@ export class OperationCreate {
         return result.response;
     }
 
+    async getBalance() {
+        const result = await HttpUtils.request('/balance');
+
+        if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
+            return alert('Возникла ошибка при запросе баланса. Обратитесь в поддержку')
+        }
+        this.balance = result.response.balance;
+    }
+
     validateForm() {
         let isValid = true;
-
         if (this.amountElement.value) {
             this.amountElement.classList.remove('is-invalid');
             this.amountElement.nextElementSibling.classList.remove('border-red');
+
+            if (!this.checkBalance()) {
+                this.amountElement.classList.add('is-invalid');
+                this.amountElement.nextElementSibling.classList.add('border-red');
+                this.amountError.innerText = 'Расход не может быть меньше текущего баланса';
+            } else {
+                this.amountElement.classList.remove('is-invalid');
+                this.amountElement.nextElementSibling.classList.remove('border-red');
+            }
+
         } else {
             this.amountElement.classList.add('is-invalid');
             this.amountElement.nextElementSibling.classList.add('border-red');
+            this.amountError.innerText = 'Введите сумму';
             isValid = false;
         }
 
@@ -89,26 +108,19 @@ export class OperationCreate {
         return isValid;
     }
 
-  async checkBalance() {
+    checkBalance() {
         let isValid = true;
         if (this.category === 'income') {
-           return isValid;
+            return isValid;
         }
-        const result = await HttpUtils.request('/balance');
+        if (this.balance < this.amountElement.value && this.amountElement.value !== '' ) {
+            isValid = false;
+        }
 
-      if (result.error || !result.response || (result.response && (result.response.error || !result.response.balance))) {
-          return alert('Возникла ошибка при запросе баланса. Обратитесь в поддержку')
-      }
-
-      if (result.response.balance < this.amountElement.value) {
-          isValid =  false;
-      }
-
-      return isValid;
-        // сделать проверку если мы на странице расхода и не должно быть что расход больше нашего баланса, логику прописал, осталось понять как и куда это поставить и проверить
+        return isValid;
     }
 
-   async createOperation() {
+    async createOperation() {
         if (this.validateForm()) {
             const result = await HttpUtils.request('/operations', 'POST', true, {
                 type: this.category,

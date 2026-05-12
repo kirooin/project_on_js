@@ -4,10 +4,6 @@ import {HttpUtils} from "../../utils/http-utils";
 export class Login {
     constructor() {
 
-        if (AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
-            return location.href = '/#/'
-        }
-
         this.emailElement = document.getElementById('email');
         this.passwordElement = document.getElementById('password');
         this.rememberElement = document.getElementById('remember-me');
@@ -49,8 +45,6 @@ export class Login {
                 password: this.passwordElement.value,
                 rememberMe: this.rememberElement.checked,
             })
-            console.log(result.response)
-
             if (result.error || !result.response || (result.response && (!result.response.tokens.accessToken || !result.response.tokens.refreshToken || !result.response.user.id || !result.response.user.name))) {
                 this.commonErrorElement.style.display = 'block';
                 return;
