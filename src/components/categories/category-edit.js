@@ -13,7 +13,6 @@ export class CategoryEdit {
         this.cancelElement = document.getElementById('cancel-btn').href = '/#/' + this.category
 
 
-
         this.getTitle(this.id).then();
         document.getElementById('save-btn').addEventListener('click', this.updateTitle.bind(this));
 
@@ -32,18 +31,30 @@ export class CategoryEdit {
     async getTitle(id) {
         const result = await HttpUtils.request('/categories/' + this.category + '/' + id)
 
+        if (result.redirect) {
+            location.href = result.redirect;
+        }
+
         if (result.error || !result.response || (result.response && result.response.error)) {
             console.log(result.response.message)
-            return alert('Возникла ошибка при запросе расходов. Обратитесь в поддержку')
+            return alert('Возникла ошибка при запросе заголовка. Обратитесь в поддержку')
         }
 
         this.titleCategory.value = result.response.title;
     }
 
     async updateTitle() {
-        await HttpUtils.request('/categories/' + this.category + '/' + this.id, 'PUT', true, {
+        const result = await HttpUtils.request('/categories/' + this.category + '/' + this.id, 'PUT', true, {
             title: this.titleCategory.value,
         });
+
+        if (result.redirect) {
+            location.href = result.redirect;
+        }
+
+        if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
+            return alert('Возникла ошибка при отправке заголовка категории. Обратитесь в поддержку')
+        }
 
         location.href = '/#/' + this.category;
     }

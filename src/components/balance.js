@@ -8,6 +8,7 @@ export class Balance {
 
     async getBalance() {
         const result = await HttpUtils.request('/balance')
+
         if (result.redirect) {
            return location.href = result.redirect
         }

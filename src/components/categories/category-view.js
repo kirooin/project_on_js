@@ -12,6 +12,7 @@ export class CategoryView {
 
     async getCategories() {
         const result = await HttpUtils.request('/categories/' + this.category);
+
         if (result.redirect) {
            return location.href = result.redirect;
         }

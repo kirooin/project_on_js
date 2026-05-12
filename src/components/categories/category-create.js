@@ -15,9 +15,18 @@ export class CategoryCreate {
 
     async createCategory() {
         const title = document.getElementById('title-category');
-        await HttpUtils.request('/categories/' + this.category, 'POST', true, {
+        const result = await HttpUtils.request('/categories/' + this.category, 'POST', true, {
             title: title.value
         })
+
+        if (result.redirect) {
+            return location.href = result.redirect
+        }
+
+        if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
+            return alert('Возникла ошибка при создании категории. Обратитесь в поддержку')
+        }
+
         location.href = '/#/' + this.category;
     }
 }

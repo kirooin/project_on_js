@@ -130,8 +130,12 @@ export class OperationCreate {
                 category_id: this.categoryElement.value,
             })
 
+            if (result.redirect) {
+                location.href = result.redirect;
+            }
+
             if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
-                return alert('Возникла ошибка при отправке категории. Обратитесь в поддержку')
+                return alert('Возникла ошибка при создании операции. Обратитесь в поддержку')
             }
 
             location.href = '/#/income-expense'

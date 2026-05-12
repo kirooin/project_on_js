@@ -4,5 +4,6 @@ export class OperationEdit {
         if (!this.id) {
             return location.href = '/#/income-expense';
         }
+        // написать логику
     }
 }
