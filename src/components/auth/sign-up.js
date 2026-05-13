@@ -4,7 +4,7 @@ import {AuthUtils} from "../../utils/auth-utils";
 export class SignUp {
     constructor() {
 
-        if (AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
+        if (AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
             return location.href = '/#/'
         }
         this.nameElement = document.getElementById('name');

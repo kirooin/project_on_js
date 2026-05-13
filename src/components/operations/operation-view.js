@@ -9,7 +9,7 @@ export class IncomeExpense {
         const result = await HttpUtils.request('/operations')
 
         if (result.redirect) {
-            return location.href = result.redirect
+            return location.href = '/#/login'
         }
 
         if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {

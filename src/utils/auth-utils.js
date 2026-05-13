@@ -1,31 +1,31 @@
 import config from "../config/config";
 
 export class AuthUtils {
-    static AccessTokenKey = 'accessToken';
-    static RefreshTokenKey = 'refreshToken';
+    static accessTokenKey = 'accessToken';
+    static refreshTokenKey = 'refreshToken';
     static userInfoKey = 'userInfo';
 
     static setAuthInfo(authToken, refreshToken, userInfo = null) {
-        localStorage.setItem(this.AccessTokenKey, authToken);
-        localStorage.setItem(this.RefreshTokenKey, refreshToken);
+        localStorage.setItem(this.accessTokenKey, authToken);
+        localStorage.setItem(this.refreshTokenKey, refreshToken);
         if (userInfo) {
             localStorage.setItem(this.userInfoKey, JSON.stringify(userInfo));
         }
     }
 
     static removeAuthInfo() {
-        localStorage.removeItem(this.AccessTokenKey);
-        localStorage.removeItem(this.RefreshTokenKey);
+        localStorage.removeItem(this.accessTokenKey);
+        localStorage.removeItem(this.refreshTokenKey);
         localStorage.removeItem(this.userInfoKey);
     }
 
     static getAuthInfo(key = null) {
-        if (key && [this.AccessTokenKey, this.RefreshTokenKey, this.userInfoKey].includes(key)) {
+        if (key && [this.accessTokenKey, this.refreshTokenKey, this.userInfoKey].includes(key)) {
             return localStorage.getItem(key);
         } else {
             return {
-                [this.AccessTokenKey]: localStorage.getItem(this.AccessTokenKey),
-                [this.RefreshTokenKey]: localStorage.getItem(this.RefreshTokenKey),
+                [this.accessTokenKey]: localStorage.getItem(this.accessTokenKey),
+                [this.refreshTokenKey]: localStorage.getItem(this.refreshTokenKey),
                 [this.userInfoKey]: localStorage.getItem(this.userInfoKey),
             }
         }
@@ -33,7 +33,7 @@ export class AuthUtils {
 
     static async updateRefreshTokenKey() {
         let result = false;
-        const token = AuthUtils.getAuthInfo(AuthUtils.RefreshTokenKey);
+        const token = AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey);
         if (token) {
             const response = await fetch(config.api + '/refresh', {
                 method: 'POST',
