@@ -1,7 +1,11 @@
 import {HttpUtils} from "../utils/http-utils";
+import {AuthUtils} from "../utils/auth-utils";
 
 export class Balance {
     constructor() {
+        if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
+           return location.href = "/#/login";
+        }
         this.getBalance().then();
         this.balance = document.getElementById('layout-balance');
     }

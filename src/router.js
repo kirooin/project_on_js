@@ -10,6 +10,7 @@ import {CategoryDelete} from "./components/categories/category-delete";
 import {IncomeExpense} from "./components/operations/operation-view";
 import {OperationCreate} from "./components/operations/operaion-create";
 import {OperationEdit} from "./components/operations/operation-edit";
+import {Main} from "./components/main";
 
 
 export class Router {
@@ -25,7 +26,7 @@ export class Router {
                 filePathTemplate: '/templates/main.html',
                 useLayout: '/templates/layout.html',
                 load() {
-                    chartsManager.init();
+                    new Main()
                 }
             },
             {

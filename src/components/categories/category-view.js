@@ -1,7 +1,11 @@
 import {HttpUtils} from "../../utils/http-utils";
+import {AuthUtils} from "../../utils/auth-utils";
 
 export class CategoryView {
     constructor(category) {
+        if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
+           return location.href = "/#/login";
+        }
         this.category = category;
         this.row = document.getElementById('row');
         this.title = document.getElementById('view-title-category');

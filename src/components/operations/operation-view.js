@@ -1,7 +1,12 @@
 import {HttpUtils} from "../../utils/http-utils";
+import {AuthUtils} from "../../utils/auth-utils";
 
 export class IncomeExpense {
     constructor() {
+
+        if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
+            return location.href = "/#/login";
+        }
         this.getOperations().then();
     }
 
