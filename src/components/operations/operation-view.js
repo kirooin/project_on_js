@@ -7,11 +7,14 @@ export class IncomeExpense {
         if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
             return location.href = "/#/login";
         }
-        this.getOperations().then();
+
+        this.dateFilterFrom = 'all'
+
+        this.getOperations(this.dateFilterFrom).then();
     }
 
-    async getOperations() {
-        const result = await HttpUtils.request('/operations')
+    async getOperations(period) {
+        const result = await HttpUtils.request('/operations?period=' + period)
 
         if (result.redirect) {
             return location.href = '/#/login'
@@ -22,14 +25,48 @@ export class IncomeExpense {
         }
         this.showOperations(result.response)
     }
-    showOperations(operations) {
-        // console.log(operations)
-        const tbody = document.getElementById('operations');
-        operations.forEach(operation => {
-            const trElement = document.createElement('tr');
 
+    showOperations(operations) {
+        console.log(operations)
+        const sortOperations = operations.sort((a, b) => {
+            return a.id - b.id;
+        })
+        const tbody = document.getElementById('operations');
+        sortOperations.forEach(operation => {
+            const trElement = document.createElement('tr');
             trElement.insertCell().innerText = operation.id
-            trElement.insertCell().innerText = operation.name
+            let type;
+            switch (operation.type) {
+                case 'income':
+                    type = trElement.insertCell()
+                    type.innerText = 'доход';
+                    break;
+                case 'expense':
+                    type = trElement.insertCell();
+                    type.innerText = 'расход';
+                    break;
+                default:
+                    type = trElement.insertCell();
+                    type.innerText = 'неизвестно';
+
+            }
+
+            switch (type.innerText) {
+                case 'расход':
+                    type.classList.add('text-danger');
+                    break;
+                case 'доход':
+                    type.classList.add('text-success');
+                    break;
+            }
+            trElement.insertCell().innerText = operation.category;
+            trElement.insertCell().innerText = operation.amount;
+            trElement.insertCell().innerText = operation.date;
+            trElement.insertCell().innerText = operation.comment;
+            trElement.insertCell().innerHTML =
+                '<a class="text-decoration-none text-black" href="/#/income-expense/edit?id=' + operation.id + ' "><i class="bi bi-pencil me-2 cursor-pointer"></i></a>' +
+                '<a id="delete-operation-' + operation.id + '   " class="text-decoration-none text-black" href="javascript:void(0)"><i class="bi bi-trash cursor-pointer" data-bs-toggle="modal" data-bs-target="#deleteModal"></i></a>';
+            tbody.appendChild(trElement);
         })
 
     }
