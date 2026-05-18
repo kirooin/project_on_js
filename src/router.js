@@ -11,6 +11,7 @@ import {IncomeExpense} from "./components/operations/operation-view";
 import {OperationCreate} from "./components/operations/operaion-create";
 import {OperationEdit} from "./components/operations/operation-edit";
 import {Main} from "./components/main";
+import {Logout} from "./components/auth/logout";
 
 
 export class Router {
@@ -20,15 +21,6 @@ export class Router {
         this.initEvents();
 
         this.routes = [
-            {
-                route: '#/',
-                title: 'Главная',
-                filePathTemplate: '/templates/main.html',
-                useLayout: '/templates/layout.html',
-                load() {
-                    new Main()
-                }
-            },
             {
                 route: '#/login',
                 title: 'Авторизация',
@@ -47,6 +39,22 @@ export class Router {
                     new SignUp();
                 }
             },
+            {
+                route: '#/logout',
+                load() {
+                    new Logout();
+                }
+            },
+            {
+                route: '#/',
+                title: 'Главная',
+                filePathTemplate: '/templates/main.html',
+                useLayout: '/templates/layout.html',
+                load() {
+                    new Main()
+                }
+            },
+
             {
                 route: '#/income',
                 title: 'Доходы',

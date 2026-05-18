@@ -30,7 +30,7 @@ export class OperationCreate {
         }
         await this.getBalance()
         const categories = await this.getCategories(this.category);
-        // console.log(categories)
+        console.log(categories)
         if (categories) {
             categories.forEach(category => {
                 const option = document.createElement('option');
@@ -68,24 +68,21 @@ export class OperationCreate {
 
     validateForm() {
         let isValid = true;
-        if (this.amountElement.value) {
+
+        if (this.amountElement.value && parseFloat(this.amountElement.value) > 0) {
             this.amountElement.classList.remove('is-invalid');
             this.amountElement.nextElementSibling.classList.remove('border-red');
-
-            if (!this.checkBalance()) {
-                this.amountElement.classList.add('is-invalid');
-                this.amountElement.nextElementSibling.classList.add('border-red');
-                this.amountError.innerText = 'Расход не может быть меньше текущего баланса';
-            } else {
-                this.amountElement.classList.remove('is-invalid');
-                this.amountElement.nextElementSibling.classList.remove('border-red');
-            }
-
         } else {
             this.amountElement.classList.add('is-invalid');
             this.amountElement.nextElementSibling.classList.add('border-red');
-            this.amountError.innerText = 'Введите сумму';
+            this.amountError.innerText = this.amountElement.value ? 'Сумма должна быть больше 0' : 'Введите сумму';
             isValid = false;
+        }
+
+        if (isValid && this.amountElement.value && parseFloat(this.amountElement.value) > 0) {
+            if (this.checkBalance() === false) {
+                isValid = false;
+            }
         }
 
         if (this.dateElement.value) {
@@ -96,7 +93,8 @@ export class OperationCreate {
             this.dateElement.nextElementSibling.classList.add('border-red');
             isValid = false;
         }
-        if (this.commentElemet.value) {
+
+        if (this.commentElemet.value && this.commentElemet.value.trim() !== '') {
             this.commentElemet.classList.remove('is-invalid');
             this.commentElemet.nextElementSibling.classList.remove('border-red');
         } else {
@@ -109,26 +107,31 @@ export class OperationCreate {
     }
 
     checkBalance() {
-        let isValid = true;
         if (this.category === 'income') {
-            return isValid;
-        }
-        if (this.balance < this.amountElement.value && this.amountElement.value !== '' ) {
-            isValid = false;
+            return true;
         }
 
-        return isValid;
+        if (this.balance < this.amountElement.value) {
+            this.amountElement.classList.add('is-invalid');
+            this.amountElement.nextElementSibling.classList.add('border-red');
+            this.amountError.innerText = 'Расход не может быть больше текущего баланса';
+            return false;
+        }
+
+        return true;
+
     }
 
     async createOperation() {
+        const changedData = {
+            type: this.category,
+            amount: this.amountElement.value,
+            date: this.dateElement.value,
+            comment: this.commentElemet.value,
+            category_id: this.categoryElement.value,
+        }
         if (this.validateForm()) {
-            const result = await HttpUtils.request('/operations', 'POST', true, {
-                type: this.category,
-                amount: this.amountElement.value,
-                date: this.dateElement.value,
-                comment: this.commentElemet.value,
-                category_id: this.categoryElement.value,
-            })
+            const result = await HttpUtils.request('/operations', 'POST', true, changedData)
 
             if (result.redirect) {
                 location.href = result.redirect;
