@@ -161,7 +161,7 @@ export class OperationEdit {
             amount: this.amountElement.value,
             date: this.dateElement.value,
             comment: this.commentElemet.value,
-            category_id: this.id,
+            category_id: Number(this.id),
         }
 
         if (this.validateForm()) {

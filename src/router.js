@@ -12,6 +12,7 @@ import {OperationCreate} from "./components/operations/operaion-create";
 import {OperationEdit} from "./components/operations/operation-edit";
 import {Main} from "./components/main";
 import {Logout} from "./components/auth/logout";
+import {OperationDelete} from "./components/operations/operation-delete";
 
 
 export class Router {
@@ -156,6 +157,12 @@ export class Router {
                 useLayout: '/templates/layout.html',
                 load() {
                     new OperationEdit()
+                }
+            },
+            {
+                route: '#/income-expense/delete',
+                load() {
+                    new OperationDelete()
                 }
             },
 

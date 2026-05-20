@@ -6,15 +6,16 @@
             <a href="/#/income-expense/create/expense"><button class="btn btn-danger">Создать расход</button></a>
         </div>
         <div class="d-flex gap-3 align-items-center font-roboto-medium">
-            <a href=""></a>  <div class="btn btn-secondary py-1 px-3 width-100">Сегодня</div>
-            <div class="btn btn-outline-secondary py-1 px-3 width-100">Неделя</div>
-            <div class="btn btn-outline-secondary py-1 px-3 width-100">Месяц</div>
-            <div class="btn btn-outline-secondary py-1 px-3 width-100">Год</div>
-            <div class="btn btn-outline-secondary py-1 px-3 width-100">Все</div>
-            <div class="btn btn-outline-secondary py-1 px-3 width-100">Интервал</div>
-            с <span class="text-secondary outline-secondary">
-            Дата</span> по <span
-                class="text-secondary outline-secondary">Дата</span>
+            <a href="/#/income-expense?period=today"><div class="btn btn-secondary py-1 px-3 width-100 period-btn" data-period="today">Сегодня</div></a>
+            <a href="/#/income-expense?period=week"><div class="btn btn-outline-secondary py-1 px-3 width-100 period-btn" data-period="week">Неделя</div></a>
+            <a href="/#/income-expense?period=month"><div class="btn btn-outline-secondary py-1 px-3 width-100 period-btn" data-period="month">Месяц</div></a>
+            <a href="/#/income-expense?period=year"><div class="btn btn-outline-secondary py-1 px-3 width-100 period-btn" data-period="year">Год</div></a>
+            <a href="/#/income-expense?period=all"><div class="btn btn-outline-secondary py-1 px-3 width-100 period-btn" data-period="all">Все</div></a>
+            <a id="interval-btn" href="javascript:void(0)"><div class="btn btn-outline-secondary py-1 px-3 width-100 period-btn" data-period="interval">Интервал</div></a>
+            с
+            <span class="text-secondary outline-secondary date-text" id="startDateText">Дата</span>
+            по
+            <span class="text-secondary outline-secondary date-text" id="endDateText">Дата</span>
         </div>
     </div>
 
@@ -41,8 +42,11 @@
         <div class="modal-content py-3">
             <div class="modal-body text-center">
                 <p class="custom-card-title-text fs-5 mb-3">Вы действительно хотите удалить операцию?</p>
-                <button type="button" class="btn btn-success me-2" data-bs-dismiss="modal" id="delete-btn">Да, удалить
-                </button>
+                <a href="javascript:void(0)" id="accept-delete">
+                    <button type="button" class="btn btn-success me-2" data-bs-dismiss="modal" >Да, удалить
+                    </button>
+                </a>
+
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Не удалять</button>
             </div>
         </div>

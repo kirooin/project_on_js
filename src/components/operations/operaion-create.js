@@ -123,15 +123,16 @@ export class OperationCreate {
     }
 
     async createOperation() {
-        const changedData = {
+        const createdData = {
             type: this.category,
             amount: this.amountElement.value,
             date: this.dateElement.value,
             comment: this.commentElemet.value,
-            category_id: this.categoryElement.value,
+            category_id: Number(this.categoryElement.value)
         }
         if (this.validateForm()) {
-            const result = await HttpUtils.request('/operations', 'POST', true, changedData)
+            console.log(createdData)
+            const result = await HttpUtils.request('/operations', 'POST', true, createdData)
 
             if (result.redirect) {
                 location.href = result.redirect;
@@ -140,6 +141,8 @@ export class OperationCreate {
             if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
                 return alert('Возникла ошибка при создании операции. Обратитесь в поддержку')
             }
+
+            console.log(result.response)
 
             location.href = '/#/income-expense'
 
