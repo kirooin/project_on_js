@@ -28,4 +28,13 @@ export class CommonUtils {
         spanElement.addEventListener('blur', onBlur, {once: true});
         spanElement.addEventListener('keypress', onKeyPress);
     }
+
+    static createDateInput(id) {
+        const input = document.createElement('input');
+        input.id = id;
+        input.type = 'date';
+        input.classList.add('form-control', 'w-auto');
+
+        return input;
+    }
 }

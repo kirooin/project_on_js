@@ -19,16 +19,12 @@ export class IncomeExpense {
         this.startSpan = document.getElementById('startDateText')
         this.endSpan = document.getElementById('endDateText');
 
-        document.getElementById('interval-btn').addEventListener('click', (e) => this.processIntervalBtn(e));
-
 
         this.initPeriodButtons(this.dateFilterFrom)
         this.getOperations(this.dateFilterFrom).then();
     }
 
-    processIntervalBtn(e) {
-        e.preventDefault();
-    }
+
 
 
     initPeriodButtons(period) {
@@ -42,37 +38,60 @@ export class IncomeExpense {
                 btn.classList.remove('btn-secondary');
             }
 
-            if (btn.dataset.period === 'interval') {
-                console.log('на верном пути')
-            }
         })
     }
 
     async getOperations(period) {
+        if (period === 'interval') {
+            const input = CommonUtils.createDateInput('input-1')
+            const input2 = CommonUtils.createDateInput('input-2')
 
-        const result = await HttpUtils.request('/operations?period=' + period)
+            this.startSpan.parentNode.replaceChild(input, this.startSpan);
+            this.endSpan.parentNode.replaceChild(input2, this.endSpan);
 
-        if (result.redirect) {
-            return location.href = '/#/login'
+            if (input && input2) {
+
+                await input.addEventListener('input', this.checkAndExecute.bind(this));
+                await input2.addEventListener('input', this.checkAndExecute.bind(this));
+            }
+
+        } else {
+            const result = await HttpUtils.request('/operations?period=' + period)
+
+            if (result.redirect) {
+                return location.href = '/#/login'
+            }
+
+            if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
+                return alert('Возникла ошибка при запросе операций. Обратитесь в поддержку')
+            }
+            this.showOperations(result.response)
         }
-
-        if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
-            return alert('Возникла ошибка при запросе операций. Обратитесь в поддержку')
-        }
-        this.showOperations(result.response)
 
 
     }
 
-    showOperations(operations) {
-        this.startSpan.addEventListener('click', () => CommonUtils.makeEditable(this.startSpan))
-        this.endSpan.addEventListener('click', () => CommonUtils.makeEditable(this.endSpan))
+    async checkAndExecute() {
+        this.input = document.getElementById('input-1')
+        this.input2 = document.getElementById('input-2')
+        if (this.input.value && this.input2.value) {
+            const result = await HttpUtils.request('/operations?period=interval&dateFrom=' + this.input.value + '&dateTo=' + this.input2.value)
 
+            if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
+                return alert('Возникла ошибка при запросе операций. Обратитесь в поддержку')
+            }
+
+            this.showOperations(result.response)
+        }
+    }
+
+    showOperations(operations) {
+        const tbody = document.getElementById('operations');
+        tbody.innerHTML = ''
         const sortOperations = operations.sort((a, b) => {
             return a.id - b.id;
         })
         console.log(operations)
-        const tbody = document.getElementById('operations');
         sortOperations.forEach(operation => {
             const trElement = document.createElement('tr');
             trElement.insertCell().innerText = operation.id

@@ -158,7 +158,7 @@ export class OperationEdit {
     async updateOperation() {
         const changedData = {
             type: this.categoriesElement,
-            amount: this.amountElement.value,
+            amount: Number(this.amountElement.value),
             date: this.dateElement.value,
             comment: this.commentElemet.value,
             category_id: Number(this.id),
