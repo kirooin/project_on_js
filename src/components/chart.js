@@ -4,16 +4,39 @@ class ChartsManager {
     constructor() {
         this.chart1 = null;
         this.chart2 = null;
+        // Постоянная последовательность цветов (можешь добавить сколько хочешь)
+        this.colorPalette = [
+            '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD',
+            '#FFD93D', '#6C5CE7', '#A8E6CF', '#DCEDC1', '#FF8B94',
+            '#FFAAA5', '#A8E6CF', '#C7CEE6', '#B5EAD7', '#FFDAC1'
+        ];
     }
 
-    init() {
+    getColorByIndex(index) {
+        return this.colorPalette[index % this.colorPalette.length];
+    }
+
+    getColorsArray(count) {
+        const colors = [];
+        for (let i = 0; i < count; i++) {
+            colors.push(this.getColorByIndex(i));
+        }
+        return colors;
+    }
+
+    init(dataForChart1, dataForChart2) {
+        if (this.chart1) this.chart1.destroy();
+        if (this.chart2) this.chart2.destroy();
+
+        const colors1 = this.getColorsArray(dataForChart1.values.length);
+
         this.chart1 = new Chart('chart1', {
             type: 'pie',
             data: {
-                labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
+                labels: dataForChart1.labels,
                 datasets: [{
-                    data: [35, 40, 15, 15, 10],
-                    backgroundColor: ['#ff0036', '#FD7E14', '#FFC107', '#20C997', '#0D6EFD'],
+                    data: dataForChart1.values,
+                    backgroundColor: colors1,
                     borderWidth: 0,
                     hoverOffset: 10
                 }]
@@ -29,7 +52,7 @@ class ChartsManager {
                                 const val = ctx.raw;
                                 const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
                                 const percent = ((val / total) * 100).toFixed(1);
-                                return `${ctx.label}: ${val}% (${percent}%)`;
+                                return `${ctx.label}: ${val} (${percent}%)`;
                             }
                         }
                     }
@@ -37,17 +60,17 @@ class ChartsManager {
             }
         });
 
+        const colors2 = this.getColorsArray(dataForChart2.values.length);
 
         this.chart2 = new Chart('chart2', {
             type: 'pie',
             data: {
-                labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
+                labels: dataForChart2.labels,
                 datasets: [{
-                    data: [10, 25, 35, 30, 35],
-                    backgroundColor: ['#ff0036', '#FD7E14', '#FFC107', '#20C997', '#0D6EFD'],
+                    data: dataForChart2.values,
+                    backgroundColor: colors2,
                     borderWidth: 0,
-                    hoverOffset: 10,
-
+                    hoverOffset: 10
                 }]
             },
             options: {
@@ -61,7 +84,7 @@ class ChartsManager {
                                 const val = ctx.raw;
                                 const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
                                 const percent = ((val / total) * 100).toFixed(1);
-                                return `${ctx.label}: ${val}% (${percent}%)`;
+                                return `${ctx.label}: ${val} (${percent}%)`;
                             }
                         }
                     }

@@ -91,7 +91,9 @@ export class IncomeExpense {
         const sortOperations = operations.sort((a, b) => {
             return a.id - b.id;
         })
-        console.log(operations)
+        const incomeArray = operations.filter(item => item.type === 'income');
+        const expenseArray = operations.filter(item => item.type === 'expense');
+
         sortOperations.forEach(operation => {
             const trElement = document.createElement('tr');
             trElement.insertCell().innerText = operation.id

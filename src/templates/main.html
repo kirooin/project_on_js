@@ -4,14 +4,16 @@
         <div class="row mb-5">
 
             <div class="d-flex gap-3 align-items-center font-roboto-medium">
-                <div class="btn btn-secondary py-1 px-3 width-100">Сегодня</div>
-                <div class="btn btn-outline-secondary py-1 px-3 width-100">Неделя</div>
-                <div class="btn btn-outline-secondary py-1 px-3 width-100">Месяц</div>
-                <div class="btn btn-outline-secondary py-1 px-3 width-100">Год</div>
-                <div class="btn btn-outline-secondary py-1 px-3 width-100">Все</div>
-                <div class="btn btn-outline-secondary py-1 px-3 width-100">Интервал</div>
-                с <span class="text-secondary outline-secondary">Дата</span> по <span
-                    class="text-secondary outline-secondary">Дата</span>
+                <a href="/#/?period=today"><div class="btn btn-secondary py-1 px-3 width-100 period-btn" data-period="today">Сегодня</div></a>
+                <a href="/#/?period=week"><div class="btn btn-outline-secondary py-1 px-3 width-100 period-btn" data-period="week">Неделя</div></a>
+                <a href="/#/?period=month"><div class="btn btn-outline-secondary py-1 px-3 width-100 period-btn" data-period="month">Месяц</div></a>
+                <a href="/#/?period=year"><div class="btn btn-outline-secondary py-1 px-3 width-100 period-btn" data-period="year">Год</div></a>
+                <a href="/#/?period=all"><div class="btn btn-outline-secondary py-1 px-3 width-100 period-btn" data-period="all">Все</div></a>
+                <a id="interval-btn" href="/#/?period=interval"><div class="btn btn-outline-secondary py-1 px-3 width-100 period-btn" data-period="interval">Интервал</div></a>
+                с
+                <span class="text-secondary outline-secondary date-text" id="startDateText">Дата</span>
+                по
+                <span class="text-secondary outline-secondary date-text" id="endDateText">Дата</span>
             </div>
         </div>
     </div>

@@ -30,7 +30,6 @@ export class OperationCreate {
         }
         await this.getBalance()
         const categories = await this.getCategories(this.category);
-        console.log(categories)
         if (categories) {
             categories.forEach(category => {
                 const option = document.createElement('option');
@@ -131,7 +130,6 @@ export class OperationCreate {
             category_id: Number(this.categoryElement.value)
         }
         if (this.validateForm()) {
-            console.log(createdData)
             const result = await HttpUtils.request('/operations', 'POST', true, createdData)
 
             if (result.redirect) {
@@ -142,7 +140,6 @@ export class OperationCreate {
                 return alert('Возникла ошибка при создании операции. Обратитесь в поддержку')
             }
 
-            console.log(result.response)
 
             location.href = '/#/income-expense'
 

@@ -13,7 +13,6 @@ export class CommonUtils {
             if (!spanElement.textContent.trim()) {
                 spanElement.textContent = 'Дата';
             }
-            console.log('Введено:', spanElement.textContent);
             spanElement.removeEventListener('blur', onBlur);
             spanElement.removeEventListener('keypress', onKeyPress);
         }

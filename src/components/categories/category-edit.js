@@ -36,7 +36,6 @@ export class CategoryEdit {
         }
 
         if (result.error || !result.response || (result.response && result.response.error)) {
-            console.log(result.response.message)
             return alert('Возникла ошибка при запросе заголовка. Обратитесь в поддержку')
         }
 

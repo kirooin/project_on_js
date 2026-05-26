@@ -18,7 +18,6 @@ export class OperationEdit {
     }
 
     async showInputs(operation) {
-        console.log(operation)
         if (operation) {
             this.categoriesElement.disabled = true;
             const option = document.createElement('option');
@@ -39,7 +38,7 @@ export class OperationEdit {
             this.categoriesElement.appendChild(option);
 
             const categories = await this.getCategories(operation.type).then();
-            this.showCategories(categories, operation)
+            this.showCategories(categories)
             this.type = operation.type;
 
             this.amountElement.value = operation.amount;
@@ -47,9 +46,9 @@ export class OperationEdit {
             this.commentElemet.innerHTML = operation.comment;
 
         }
-
-
     }
+
+
 
     async getOperation() {
         const result = await HttpUtils.request('/operations/' + this.id)
@@ -72,10 +71,6 @@ export class OperationEdit {
     }
 
     showCategories(categories, operation) {
-        const option = document.createElement('option');
-        option.value = operation.id
-        option.innerText = operation.category
-        this.categoryElement.appendChild(option);
 
         categories.forEach(category => {
             const option = document.createElement('option');
@@ -140,7 +135,6 @@ export class OperationEdit {
         }
 
         return true;
-
     }
 
     async getBalance() {
@@ -149,7 +143,7 @@ export class OperationEdit {
         if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
             return alert('Возникла ошибка при запросе баланса. Обратитесь в поддержку')
         }
-        this.balance = result.response.balance;
+       return this.balance = result.response.balance;
     }
 
 
@@ -157,16 +151,16 @@ export class OperationEdit {
 
     async updateOperation() {
         const changedData = {
-            type: this.categoriesElement,
+            type: this.type,
             amount: Number(this.amountElement.value),
             date: this.dateElement.value,
             comment: this.commentElemet.value,
-            category_id: Number(this.id),
+            category_id: Number(this.categoryElement.value),
         }
+        console.log(changedData)
 
         if (this.validateForm()) {
             const result = await HttpUtils.request('/operations/' + this.id, 'PUT', true, changedData)
-
 
             if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
                 return alert('Возникла ошибка при создании операции. Обратитесь в поддержку')
