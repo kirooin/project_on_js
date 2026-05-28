@@ -1,0 +1,25 @@
+<div class="view">
+    <div class="container mt-5 ms-0">
+        <h1 id="view-title-category" class="text-dark-blue-medium mb-4"></h1>
+        <div class="card-group  gap-3">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 col g-4" id="row">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content py-3">
+                <div class="modal-body text-center">
+                    <p class="custom-card-title-text fs-5 mb-3">Вы действительно хотите удалить категорию?
+                        Связанные доходы останутся без категории.</p>
+                    <a href="javascript:void(0)" id="accept-delete" class="text-decoration-none">
+                        <button type="button" class="btn btn-success me-2" data-bs-dismiss="modal" >Да,
+                            удалить
+                        </button>
+                    </a>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Не удалять</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

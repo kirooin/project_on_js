@@ -6,43 +6,59 @@
     </a>
     <ul class="nav nav-pills flex-column mb-auto gap-1 mt-5 col-12 px-3">
         <li class="nav-item">
-            <a href="#" class="nav-link text-dark-blue  active" aria-current="page">
+            <a id="layout-btn-main" href="#" class="nav-link text-dark-blue  " aria-current="page">
                 <i class="bi bi-house me-2"></i>
                 Главная
             </a>
         </li>
         <li class="nav-item">
-            <a href="/#/income-expenses" class="nav-link text-dark-blue" aria-current="page">
+            <a id="layout-btn-income-expenses" href="/#/income-expense" class="nav-link text-dark-blue" aria-current="page">
                 <i class="bi bi-cash-coin me-2"></i>
                 Доходы & Расходы
             </a>
         </li>
         <li class="nav-item ">
             <div class="dropdown ">
-                <button class="btn  dropdown-toggle text-dark-blue col-12" type="button" data-bs-toggle="dropdown" id="dropdown-btn">
+                <button  class="btn  dropdown-toggle text-dark-blue col-12" type="button" data-bs-toggle="dropdown" id="dropdown-btn">
                     Категории
                     <i class="bi bi-chevron-right ps-10" id="chevron-right"></i>
                     <i class="bi bi-chevron-down ps-10 d-none" id="chevron-down"></i>
                 </button>
                 <ul class="dropdown-menu bg-white col-12 border-primary border" id="dropdown-menu">
-                    <li><a class="dropdown-item text-primary col-12" href="/#/income">Доходы</a></li>
-                    <li><a class="dropdown-item text-primary col-12" href="/#/expenses">Расходы</a></li>
+                    <li><a id="income" class="dropdown-item text-primary col-12" href="/#/income">Доходы</a></li>
+                    <li><a id="expense" class="dropdown-item text-primary col-12" href="/#/expense">Расходы</a></li>
                 </ul>
             </div>
+
         </li>
     </ul>
    <div class="col-12 px-3 pb-3 text-dark-blue-medium">
-       Баланс: <span class="text-primary">500$</span>
+       Баланс: <span id="layout-balance" class="text-primary">500$</span>
    </div>
    <div  class=" border-top col-12">
-       <a href="#" class="d-flex justify-content-center align-items-center text-decoration-none pt-3 pb-4 " data-bs-toggle="dropdown">
+       <a href="/#/" class="d-flex justify-content-center align-items-center text-decoration-none pt-3 pb-4" data-bs-toggle="modal" data-bs-target="#logout">
            <i class="bi bi-person me-3 img-person-circle" ></i>
-           <strong class="text-dark-blue">Roman Chernov</strong>
+           <strong id="user-name" class="text-dark-blue w-50">Roman Chernov</strong>
        </a>
    </div>
 
 </div>
+</div>
 
+<div class="modal fade" id="logout" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content py-3">
+            <div class="modal-body text-center">
+                <p class="custom-card-title-text fs-5 mb-3">Вы действительно хотите выйти из системы?</p>
+                <a href="/#/logout" class="text-decoration-none">
+                    <button type="button" class="btn btn-success me-2" data-bs-dismiss="modal" >Да,
+                        выйти
+                    </button>
+                </a>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Не выходить</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <main class="p-4" style="margin-left: 0; margin-top: 60px;" id="content-layout"></main>

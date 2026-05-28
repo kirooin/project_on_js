@@ -4,7 +4,7 @@ import {AuthUtils} from "../../utils/auth-utils";
 export class SignUp {
     constructor() {
 
-        if (AuthUtils.getAuthInfo(AuthUtils.AccessTokenKey)) {
+        if (AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
             return location.href = '/#/'
         }
         this.nameElement = document.getElementById('name');
@@ -13,6 +13,7 @@ export class SignUp {
         this.passwordElement = document.getElementById('password');
         this.passwordRepeatElement = document.getElementById('password-repeat');
         this.commonErrorElement = document.getElementById('common-error');
+        this.passwordErrorElement = document.getElementById('password-error');
 
         document.getElementById('process-button').addEventListener('click', this.signUp.bind(this));
     }
@@ -46,14 +47,10 @@ export class SignUp {
             isValid = false;
         }
 
-        if (this.passwordElement.value && this.passwordElement.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)) {
-            this.passwordElement.classList.remove('is-invalid');
-            this.passwordElement.previousElementSibling.classList.remove('border-red');
-        } else {
-            this.passwordElement.classList.add('is-invalid');
-            this.passwordElement.previousElementSibling.classList.add('border-red');
-            isValid = false;
+        if (this.checkPassword()) {
+            isValid = this.checkPassword()
         }
+
 
         if (this.passwordRepeatElement.value && this.passwordRepeatElement.value === this.passwordElement.value) {
             this.passwordRepeatElement.classList.remove('is-invalid');
@@ -66,10 +63,33 @@ export class SignUp {
         return isValid;
     }
 
+    checkPassword() {
+        if (!this.passwordElement.value) {
+            this.passwordElement.classList.add('is-invalid');
+            this.passwordElement.previousElementSibling.classList.add('border-red');
+            this.passwordErrorElement.innerText = 'Введите пароль'
+            return false;
+        } else {
+            this.passwordElement.classList.remove('is-invalid');
+            this.passwordElement.previousElementSibling.classList.remove('border-red');
+        }
+
+        if (!this.passwordElement.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)) {
+            this.passwordElement.classList.add('is-invalid');
+            this.passwordElement.previousElementSibling.classList.add('border-red');
+            this.passwordErrorElement.innerText = 'Пароль должен содержать минимум 8 символов, включая хотя бы одну заглавную букву, одну строчную букву и одну цифру.'
+            return false;
+        } else {
+            this.passwordElement.classList.remove('is-invalid');
+            this.passwordElement.previousElementSibling.classList.remove('border-red');
+        }
+        return true;
+    }
+
     async signUp() {
         this.commonErrorElement.style.display = 'none'
         if (this.validateForm()) {
-            const result = await HttpUtils.request('/signup', 'POST', {
+            const result = await HttpUtils.request('/signup', 'POST', false, {
                 name: this.nameElement.value,
                 lastName: this.lastNameElement.value,
                 email: this.emailElement.value,
@@ -81,7 +101,7 @@ export class SignUp {
                 return;
             }
             location.href = '/#/login'
-       
+
         }
     }
 
