@@ -4,7 +4,6 @@ class ChartsManager {
     constructor() {
         this.chart1 = null;
         this.chart2 = null;
-        // Постоянная последовательность цветов (можешь добавить сколько хочешь)
         this.colorPalette = [
             '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD',
             '#FFD93D', '#6C5CE7', '#A8E6CF', '#DCEDC1', '#FF8B94',
