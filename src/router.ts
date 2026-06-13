@@ -1,5 +1,4 @@
 import {Sidebar} from "./components/sidebar";
-import {chartsManager} from './components/chart.js';
 import {Login} from "./components/auth/login";
 import {SignUp} from "./components/auth/sign-up";
 import {Balance} from "./components/balance";
@@ -13,9 +12,15 @@ import {OperationEdit} from "./components/operations/operation-edit";
 import {Main} from "./components/main";
 import {Logout} from "./components/auth/logout";
 import {OperationDelete} from "./components/operations/operation-delete";
+import {RouteType} from "./types/route.type";
 
 
 export class Router {
+    readonly pageTitle: HTMLElement | null;
+    readonly pageContent: HTMLElement | null;
+
+    private routes: RouteType[]
+
     constructor() {
         this.pageTitle = document.getElementById("page-title");
         this.pageContent = document.getElementById("page-content");
@@ -26,7 +31,6 @@ export class Router {
                 route: '#/login',
                 title: 'Авторизация',
                 filePathTemplate: '/templates/auth/login.html',
-                useLayout: false,
                 load() {
                     new Login();
                 }
@@ -35,7 +39,6 @@ export class Router {
                 route: '#/sign-up',
                 title: 'Регистрация',
                 filePathTemplate: '/templates/auth/sign-up.html',
-                useLayout: false,
                 load() {
                     new SignUp();
                 }
@@ -170,28 +173,31 @@ export class Router {
 
     }
 
-    initEvents() {
+    private initEvents(): void {
         window.addEventListener('DOMContentLoaded', this.activateRoute.bind(this));
         window.addEventListener('popstate', this.activateRoute.bind(this));
     }
 
-    async activateRoute() {
-        const urlRoute = window.location.hash.split('?')[0];
-        const newRoute = this.routes.find(route => route.route === urlRoute);
+    private async activateRoute(): Promise<void> {
+        const urlRoute: string | undefined = window.location.hash.split('?')[0];
+        const newRoute: RouteType | undefined = this.routes.find(route => route.route === urlRoute);
         if (newRoute) {
 
-            if (newRoute.title) {
+            if (newRoute.title && this.pageTitle) {
                 this.pageTitle.innerText = newRoute.title + ' | Lumincoin Finance';
             }
+
             if (newRoute.filePathTemplate) {
-                let contentBlock = this.pageContent;
-                if (newRoute.useLayout) {
+                let contentBlock: HTMLElement | null = this.pageContent;
+                if (newRoute.useLayout && contentBlock) {
                     contentBlock.innerHTML = await fetch(newRoute.useLayout).then(response => response.text());
                     contentBlock = document.getElementById('content-layout');
                     new Sidebar();
                     new Balance();
                 }
-                contentBlock.innerHTML = await fetch(newRoute.filePathTemplate).then(response => response.text());
+                if (contentBlock) {
+                    contentBlock.innerHTML = await fetch(newRoute.filePathTemplate).then(response => response.text());
+                }
             }
             if (newRoute.load && typeof newRoute.load === 'function') {
                 newRoute.load();
