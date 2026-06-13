@@ -2,7 +2,7 @@ import config from "../config/config";
 import {AuthUtils} from "./auth-utils";
 
 export class HttpUtils {
-    static async request(url, method = 'GET', useAuth = true, body = null) {
+   public static async request(url, method = 'GET', useAuth = true, body = null) {
         const result = {
             error: false,
             response: null,

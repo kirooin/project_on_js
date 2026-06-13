@@ -122,6 +122,7 @@ class AuthController {
             const {accessToken, refreshToken} = await TokenUtils.generateTokens(user, req.body.rememberMe);
 
             res.status(200).json({
+                error: false, // здесь изменил код !!!!!!!!
                 tokens: {
                     accessToken,
                     refreshToken,
