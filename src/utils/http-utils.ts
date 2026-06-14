@@ -1,14 +1,15 @@
 import config from "../config/config";
 import {AuthUtils} from "./auth-utils";
+import {requestResultType} from "../types/request-result.type";
 
 export class HttpUtils {
-   public static async request(url, method = 'GET', useAuth = true, body = null) {
-        const result = {
+   public static async request(url: string, method:string = 'GET', useAuth:boolean = true, body: any = null): Promise<any> {
+        const result: requestResultType = {
             error: false,
             response: null,
         }
 
-        const params = {
+        const params: any = {
             method: method,
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ export class HttpUtils {
                 if (!token) {
                     result.redirect = '/#/login';
                 } else {
-                    const updateTokenResult = await AuthUtils.updateRefreshTokenKey();
+                    const updateTokenResult: boolean = await AuthUtils.updateRefreshTokenKey();
                     if (updateTokenResult) {
                         return this.request(url, method, useAuth, body);
                     } else {

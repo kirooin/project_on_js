@@ -4,9 +4,15 @@ import {CommonUtils} from "../utils/common-utils";
 import {HttpUtils} from "../utils/http-utils";
 
 export class Main {
+    readonly dateFilterFrom;
+    readonly period;
+    readonly startSpan;
+    readonly endSpan;
+
     constructor() {
         if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
-            return location.href = "/#/login";
+            location.href = "/#/login";
+            return
         }
 
         this.dateFilterFrom = 'today'

@@ -2,7 +2,7 @@ import config from "../config/config";
 import {RefreshResponseType} from "../types/refresh-response.type";
 
 export class AuthUtils {
-    private static accessTokenKey: string = 'accessToken';
+    public static accessTokenKey: string = 'accessToken';
     private static refreshTokenKey: string = 'refreshToken';
     private static userInfoKey: string = 'userInfo';
 
