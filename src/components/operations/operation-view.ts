@@ -6,7 +6,8 @@ export class IncomeExpense {
     constructor() {
 
         if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
-            return location.href = "/#/login";
+            location.href = "/#/login";
+            return
         }
         this.dateFilterFrom = 'today'
 

@@ -1,10 +1,10 @@
 import config from "../config/config";
 import {AuthUtils} from "./auth-utils";
-import {requestResultType} from "../types/request-result.type";
+import {RequestResultType} from "../types/request-result.type";
 
 export class HttpUtils {
    public static async request(url: string, method:string = 'GET', useAuth:boolean = true, body: any = null): Promise<any> {
-        const result: requestResultType = {
+        const result: RequestResultType = {
             error: false,
             response: null,
         }

@@ -4,7 +4,7 @@ import {RefreshResponseType} from "../types/refresh-response.type";
 export class AuthUtils {
     public static accessTokenKey: string = 'accessToken';
     private static refreshTokenKey: string = 'refreshToken';
-    private static userInfoKey: string = 'userInfo';
+    public static userInfoKey: string = 'userInfo';
 
     public static setAuthInfo(authToken: string, refreshToken: string, userInfo = null): void {
         localStorage.setItem(this.accessTokenKey, authToken);

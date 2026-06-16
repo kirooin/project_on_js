@@ -1,4 +1,4 @@
-export type requestResultType = {
+export type RequestResultType = {
     error: boolean,
     response: unknown,
     redirect?: string
