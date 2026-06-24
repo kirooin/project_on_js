@@ -1,5 +1,5 @@
-export type RequestResultType = {
-    error: boolean,
-    response: unknown,
-    redirect?: string
+export type RequestResultType<T = unknown> = {
+    response: T;
+    error?: boolean;
+    redirect?: string;
 }

@@ -1,4 +1,4 @@
-export type OperationIntervalType ={
+export type OperationType = {
     id: number,
     type: string,
     amount: number,

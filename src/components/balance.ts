@@ -1,25 +1,36 @@
 import {HttpUtils} from "../utils/http-utils";
 import {AuthUtils} from "../utils/auth-utils";
+import {RequestResultType} from "../types/request-result.type";
+import {BalanceData} from "../types/balance-response.type";
 
 export class Balance {
+    balance: HTMLElement | null = null;
+
     constructor() {
         if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
-           return location.href = "/#/login";
+            location.href = "/#/login";
+            return;
         }
-        this.getBalance().then();
+
         this.balance = document.getElementById('layout-balance');
+        this.getBalance().then();
     }
 
-    async getBalance() {
-        const result = await HttpUtils.request('/balance')
+    private async getBalance(): Promise<void> {
+        const result: RequestResultType<BalanceData> = await HttpUtils.request('/balance');
 
         if (result.redirect) {
-           return location.href = result.redirect
+            location.href = result.redirect;
+            return;
         }
 
-        if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
-            return alert('Возникла ошибка при запросе баланса. Обратитесь в поддержку')
+        if (result.error || !result.response || (result.response && !result.response)) {
+            alert('Возникла ошибка при запросе баланса. Обратитесь в поддержку');
+            return;
         }
-        this.balance.innerText = result.response.balance + '$';
+
+        if (this.balance) {
+            this.balance.innerText = result.response.balance + '$';
+        }
     }
 }

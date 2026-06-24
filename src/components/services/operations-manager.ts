@@ -3,8 +3,8 @@ import {HttpUtils} from "../../utils/http-utils";
 import {RequestResultType} from "../../types/request-result.type";
 
 export class OperationsManager {
-    readonly dateFilterFrom;
-    readonly period;
+    readonly dateFilterFrom: string;
+    readonly period: string | undefined;
     readonly startSpan: HTMLSpanElement | null;
     readonly endSpan: HTMLSpanElement | null;
     readonly input: HTMLInputElement | null;
