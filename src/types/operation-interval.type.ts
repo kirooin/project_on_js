@@ -5,4 +5,5 @@ export type OperationType = {
     date: string,
     comment: string,
     category: string,
+    error?: string
 }

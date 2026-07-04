@@ -2,6 +2,7 @@ import {HttpUtils} from "../../utils/http-utils";
 import {OperationType} from "../../types/operation-interval.type";
 import {RequestResultType} from "../../types/request-result.type";
 import {CategoryType} from "../../types/category.type";
+import {BalanceData} from "../../types/balance-response.type";
 
 export class OperationEdit {
     readonly id: string | undefined;
@@ -56,7 +57,7 @@ export class OperationEdit {
             }
             this.categoriesElement.appendChild(option);
 
-            const categories = await this.getCategories(operation.type).then();
+            const categories: CategoryType[] = await this.getCategories(operation.type).then();
             this.showCategories(categories)
             this.type = operation.type;
 
@@ -80,9 +81,9 @@ export class OperationEdit {
     }
 
     private async getCategories(category: string) {
-        const result = await HttpUtils.request('/categories/' + category);
+        const result: RequestResultType<CategoryType[]> = await HttpUtils.request('/categories/' + category);
 
-        if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
+        if (result.error || !result.response || (result.response && (result.response || !result.response))) {
             return alert('Возникла ошибка при запросе категории. Обратитесь в поддержку')
         }
 
@@ -101,7 +102,7 @@ export class OperationEdit {
         })
     }
 
-    validateForm() {
+    private validateForm(): boolean {
         let isValid = true;
 
         if (this.amountElement && this.amountElement.nextElementSibling && this.amountElement.value && parseFloat(this.amountElement.value) > 0) {
@@ -143,7 +144,7 @@ export class OperationEdit {
         return isValid;
     }
 
-    checkBalance() {
+    private checkBalance(): boolean {
         if (this.type === 'income') {
             return true;
         }
@@ -163,8 +164,8 @@ export class OperationEdit {
         return true;
     }
 
-    async getBalance() {
-        const result = await HttpUtils.request('/balance');
+    private async getBalance(): Promise<number | void> {
+        const result: RequestResultType<BalanceData> = await HttpUtils.request('/balance');
 
         if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
             return alert('Возникла ошибка при запросе баланса. Обратитесь в поддержку')
@@ -173,7 +174,7 @@ export class OperationEdit {
     }
 
 
-    async updateOperation() {
+    private async updateOperation(): Promise<void> {
         const changedData = {
             type: this.type,
             amount: this.amountElement?.value ? Number(this.amountElement.value) : 0,
@@ -183,7 +184,7 @@ export class OperationEdit {
         }
 
         if (this.validateForm()) {
-            const result = await HttpUtils.request('/operations/' + this.id, 'PUT', true, changedData)
+            const result: RequestResultType<OperationType> = await HttpUtils.request('/operations/' + this.id, 'PUT', true, changedData)
 
             if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
                 return alert('Возникла ошибка при создании операции. Обратитесь в поддержку')
