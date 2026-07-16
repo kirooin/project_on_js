@@ -1,26 +1,33 @@
 import {HttpUtils} from "../../utils/http-utils";
+import {RequestResultType} from "../../types/request-result.type";
+import {PostRequestType} from "../../types/post-request.type";
 
 export class CategoryCreate {
-    constructor(category) {
+    readonly category: string;
+    readonly title: HTMLElement | null;
+
+    constructor(category: string) {
         this.category = category;
-        document.getElementById('create-btn').addEventListener('click', this.createCategory.bind(this));
+
+        document.getElementById('create-btn')?.addEventListener('click', this.createCategory.bind(this));
         this.title = document.getElementById('create-title-category')
 
-        if (this.category === 'income') {
+        if (this.category === 'income' && this.title) {
             this.title.innerText = 'Создание категории доходов'
         } else {
-            this.title.innerText = 'Создание категории расходов'
+            if (this.title) this.title.innerText = 'Создание категории расходов'
         }
     }
 
-    async createCategory() {
+    async createCategory(): Promise<void> {
         const title = document.getElementById('title-category');
-        const result = await HttpUtils.request('/categories/' + this.category, 'POST', true, {
-            title: title.value
+        const result: RequestResultType<PostRequestType> = await HttpUtils.request('/categories/' + this.category, 'POST', true, {
+            title: title?.innerText,
         })
 
         if (result.redirect) {
-            return location.href = result.redirect
+            location.href = result.redirect
+            return
         }
 
         if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {

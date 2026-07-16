@@ -1,10 +1,17 @@
 import {HttpUtils} from "../../utils/http-utils";
 import {AuthUtils} from "../../utils/auth-utils";
+import {RequestResultType} from "../../types/request-result.type";
+import {CategoryType} from "../../types/category.type";
 
 export class CategoryView {
-    constructor(category) {
+    readonly category: string | undefined;
+    readonly row: HTMLElement | null | undefined;
+    readonly title: HTMLElement | null | undefined;
+
+    constructor(category: string) {
         if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
-           return location.href = "/#/login";
+            location.href = "/#/login";
+            return
         }
         this.category = category;
         this.row = document.getElementById('row');
@@ -14,33 +21,34 @@ export class CategoryView {
         }
     }
 
-    async getCategories() {
-        const result = await HttpUtils.request('/categories/' + this.category);
+    private async getCategories(): Promise<string | void> {
+        const result: RequestResultType<CategoryType[]> = await HttpUtils.request('/categories/' + this.category);
 
         if (result.redirect) {
-           return location.href = result.redirect;
+            return location.href = result.redirect;
         }
-        if (result.error || !result.response || (result.response && result.response.error)) {
-            console.log(result.response.message)
+        if (result.error || !result.response || result.response) {
             return alert('Возникла ошибка при запросе категорий. Обратитесь в поддержку')
         }
 
         this.showCategories(result.response);
     }
 
-    showCategories(categories) {
-      if (this.category === 'income') {
-          this.title.innerText = 'Доходы'
-      } else {
-          this.title.innerText = 'Расходы'
-      }
-        this.row.innerHTML = '';
-        this.createCardsCategories(categories);
-        this.createAddCardCategories();
-        this.initDeleteButtons();
+    private showCategories(categories: CategoryType[]): void {
+        if (this.title && this.row) {
+            if (this.category === 'income') {
+                this.title.innerText = 'Доходы'
+            } else {
+                this.title.innerText = 'Расходы'
+            }
+            this.row.innerHTML = '';
+            this.createCardsCategories(categories);
+            this.createAddCardCategories();
+            this.initDeleteButtons();
+        }
     }
 
-    createCardsCategories(categories) {
+    private createCardsCategories(categories: CategoryType[]): void {
         categories.forEach(category => {
             const col = document.createElement('div');
             col.classList.add('col');
@@ -85,12 +93,15 @@ export class CategoryView {
             card.appendChild(cardBody);
             col.appendChild(card);
 
-            return this.row.appendChild(col)
+            if (this.row) {
+                return this.row.appendChild(col)
+            }
+
 
         })
     }
 
-    createAddCardCategories() {
+    private createAddCardCategories(): void {
         const col = document.createElement('div');
         col.className = 'col';
 
@@ -113,23 +124,27 @@ export class CategoryView {
         link.appendChild(card);
         col.appendChild(link);
 
-        return this.row.appendChild(col);
+        if (this.row) {
+            this.row.appendChild(col);
+            return
+        }
     }
 
-    initDeleteButtons() {
+    private initDeleteButtons(): void {
         const buttons = document.querySelectorAll('.link-delete');
         buttons.forEach(button => {
             button.addEventListener('click', (e) => this.handleDeleteClick(e))
         })
     }
 
-    handleDeleteClick(e) {
-        const button = e.currentTarget;
-        const buttonId = button.id.split('-')[1];
-        const acceptBtn = document.getElementById('accept-delete');
-        if (acceptBtn) {
-            acceptBtn.href = '#/' + this.category + '/delete?id=' + buttonId;
+    private handleDeleteClick(e: Event): void {
+        const button = e.currentTarget as HTMLElement | null;
+        if (button) {
+            const buttonId = button.id.split('-')[1];
+            const acceptBtn = document.getElementById('accept-delete') as HTMLAnchorElement | null;
+            if (acceptBtn) {
+                acceptBtn.href = '#/' + this.category + '/delete?id=' + buttonId;
+            }
         }
-
     }
 }

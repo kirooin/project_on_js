@@ -1,35 +1,47 @@
 import {HttpUtils} from "../../utils/http-utils";
+import {RequestResultType} from "../../types/request-result.type";
+import {CategoryType} from "../../types/category.type";
+import {PostRequestType} from "../../types/post-request.type";
 
 export class CategoryEdit {
-    constructor(category) {
+    readonly category: string | undefined;
+    readonly id: string | undefined;
+    readonly titleCategory: HTMLElement | null = null;
+    readonly title: HTMLElement | null = null;
+    readonly cancelElement: HTMLAnchorElement | null = null;
+
+    constructor(category: string) {
         this.category = category;
         this.id = location.hash.split('=')[1];
         if (!this.id) {
-            return location.href = '/#/';
+            location.href = '/#/';
+            return
         }
-        this.titleCategory = document.getElementById('title-category');
+        this.titleCategory = document.getElementById('title-category')
         this.title = document.getElementById('edit-title-category')
 
-        this.cancelElement = document.getElementById('cancel-btn').href = '/#/' + this.category
-
+        this.cancelElement = document.getElementById('cancel-btn') as HTMLAnchorElement | null;
+        if (this.cancelElement) {
+            this.cancelElement.href = '/#/' + this.category
+        }
 
         this.getTitle(this.id).then();
-        document.getElementById('save-btn').addEventListener('click', this.updateTitle.bind(this));
+        document.getElementById('save-btn')?.addEventListener('click', this.updateTitle.bind(this));
 
         switch (this.category) {
             case 'income':
-                this.title.innerText = 'Редактирование категории доходов'
+                if (this.title) this.title.innerText = 'Редактирование категории доходов'
                 break;
             case 'expense':
-                this.title.innerText = 'Редактирование категории расходов'
+                if (this.title) this.title.innerText = 'Редактирование категории расходов'
                 break;
             default:
-                this.title.innerText = 'Редактирование категории undefined'
+                if (this.title) this.title.innerText = 'Редактирование категории undefined'
         }
     }
 
-    async getTitle(id) {
-        const result = await HttpUtils.request('/categories/' + this.category + '/' + id)
+    private async getTitle(id: string): Promise<void> {
+        const result: RequestResultType<CategoryType> = await HttpUtils.request('/categories/' + this.category + '/' + id)
 
         if (result.redirect) {
             location.href = result.redirect;
@@ -39,12 +51,12 @@ export class CategoryEdit {
             return alert('Возникла ошибка при запросе заголовка. Обратитесь в поддержку')
         }
 
-        this.titleCategory.value = result.response.title;
+        if (this.titleCategory) this.titleCategory.innerText = result.response.title;
     }
 
-    async updateTitle() {
-        const result = await HttpUtils.request('/categories/' + this.category + '/' + this.id, 'PUT', true, {
-            title: this.titleCategory.value,
+    private async updateTitle(): Promise<void> {
+        const result: RequestResultType<PostRequestType> = await HttpUtils.request('/categories/' + this.category + '/' + this.id, 'PUT', true, {
+            title: this.titleCategory?.innerText,
         });
 
         if (result.redirect) {

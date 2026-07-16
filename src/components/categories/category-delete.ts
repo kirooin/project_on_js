@@ -1,21 +1,27 @@
 import {HttpUtils} from "../../utils/http-utils";
+import {RequestResultType} from "../../types/request-result.type";
+import {PostRequestType} from "../../types/post-request.type";
 
 export class CategoryDelete {
-    constructor(category) {
+    readonly category: string;
+    readonly id: string | undefined;
+
+    constructor(category: string) {
         this.category = category;
         this.id = location.hash.split('=')[1];
 
         if (!this.id) {
-            return location.href = '/#/';
+            location.href = '/#/';
+            return
         }
 
         this.deleteCategory(this.id).then();
     }
 
-    async deleteCategory(id) {
-      const result =   await HttpUtils.request('/categories/' + this.category + '/' + id, 'DELETE', true)
+   private async deleteCategory(id: string): Promise<void> {
+        const result: RequestResultType<PostRequestType> = await HttpUtils.request('/categories/' + this.category + '/' + id, 'DELETE', true)
 
-        if (result.redirect ) {
+        if (result.redirect) {
             location.href = result.redirect;
         }
 
