@@ -35,9 +35,9 @@
     display: block !important;
 }
 
-.d-none {
-    display: none !important;
-}
+/*.d-none {*/
+/*    display: none !important;*/
+/*}*/
 
 .nav-link.active {
     color: var(--white) !important;
@@ -61,7 +61,8 @@
 
 .dropdown-toggle:focus,
 .dropdown-toggle:active,
-.dropdown-toggle.show {
+.dropdown-toggle.show,
+.dropdown-toggle.active {
     outline: none !important;
     box-shadow: none !important;
 }
@@ -114,7 +115,8 @@
 }
 
 .dropdown-item:hover,
-.dropdown-item:focus {
+.dropdown-item:active,
+.dropdown-item:active {
     background-color: var(--primary) !important;
     color: var(--white) !important;
 }

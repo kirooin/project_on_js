@@ -1,28 +1,28 @@
 import {HttpUtils} from "../../utils/http-utils";
 import {RequestResultType} from "../../types/request-result.type";
-import {PostRequestType} from "../../types/post-request.type";
+import {PostResponseType} from "../../types/post-response.type";
 
 export class CategoryCreate {
     readonly category: string;
-    readonly title: HTMLElement | null;
+    readonly title: HTMLInputElement | null;
 
     constructor(category: string) {
         this.category = category;
 
         document.getElementById('create-btn')?.addEventListener('click', this.createCategory.bind(this));
-        this.title = document.getElementById('create-title-category')
+        this.title = document.getElementById('create-title-category') as HTMLInputElement
 
         if (this.category === 'income' && this.title) {
             this.title.innerText = 'Создание категории доходов'
         } else {
-            if (this.title) this.title.innerText = 'Создание категории расходов'
+            if (this.title) this.title.value = 'Создание категории расходов'
         }
     }
 
     async createCategory(): Promise<void> {
-        const title = document.getElementById('title-category');
-        const result: RequestResultType<PostRequestType> = await HttpUtils.request('/categories/' + this.category, 'POST', true, {
-            title: title?.innerText,
+        const title = document.getElementById('title-category') as HTMLInputElement;
+        const result: RequestResultType<PostResponseType> = await HttpUtils.request('/categories/' + this.category, 'POST', true, {
+            title: title?.value,
         })
 
         if (result.redirect) {

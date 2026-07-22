@@ -4,12 +4,13 @@ import {HttpUtils} from "../../utils/http-utils";
 export class Logout {
     constructor() {
         if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) || !AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey)) {
-            return location.href = "/#/login";
+             location.href = "/#/login";
+            return
         }
         this.logout().then()
     }
 
-   async logout() {
+  private async logout():Promise<void> {
         await HttpUtils.request('/signup', 'POST', false,{
             refreshToken: AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey),
         })

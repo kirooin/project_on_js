@@ -2,7 +2,7 @@ import {HttpUtils} from "../../utils/http-utils";
 import {CategoryType} from "../../types/category.type";
 import {BalanceData} from "../../types/balance-response.type";
 import {RequestResultType} from "../../types/request-result.type";
-import {PostRequestType} from "../../types/post-request.type";
+import {PostResponseType} from "../../types/post-response.type";
 
 export class OperationCreate {
     readonly category: string | undefined;
@@ -160,7 +160,7 @@ export class OperationCreate {
             category_id: Number(this.categoryElement?.value)
         }
         if (this.validateForm()) {
-            const result: RequestResultType<PostRequestType> = await HttpUtils.request('/operations', 'POST', true, createdData)
+            const result: RequestResultType<PostResponseType> = await HttpUtils.request('/operations', 'POST', true, createdData)
 
             if (result.redirect) {
                 location.href = result.redirect;

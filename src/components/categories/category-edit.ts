@@ -1,12 +1,12 @@
 import {HttpUtils} from "../../utils/http-utils";
 import {RequestResultType} from "../../types/request-result.type";
 import {CategoryType} from "../../types/category.type";
-import {PostRequestType} from "../../types/post-request.type";
+import {PostResponseType} from "../../types/post-response.type";
 
 export class CategoryEdit {
     readonly category: string | undefined;
     readonly id: string | undefined;
-    readonly titleCategory: HTMLElement | null = null;
+    readonly titleCategory: HTMLInputElement | null = null;
     readonly title: HTMLElement | null = null;
     readonly cancelElement: HTMLAnchorElement | null = null;
 
@@ -17,7 +17,7 @@ export class CategoryEdit {
             location.href = '/#/';
             return
         }
-        this.titleCategory = document.getElementById('title-category')
+        this.titleCategory = document.getElementById('title-category') as HTMLInputElement
         this.title = document.getElementById('edit-title-category')
 
         this.cancelElement = document.getElementById('cancel-btn') as HTMLAnchorElement | null;
@@ -51,12 +51,12 @@ export class CategoryEdit {
             return alert('Возникла ошибка при запросе заголовка. Обратитесь в поддержку')
         }
 
-        if (this.titleCategory) this.titleCategory.innerText = result.response.title;
+        if (this.titleCategory) this.titleCategory.value = result.response.title;
     }
 
     private async updateTitle(): Promise<void> {
-        const result: RequestResultType<PostRequestType> = await HttpUtils.request('/categories/' + this.category + '/' + this.id, 'PUT', true, {
-            title: this.titleCategory?.innerText,
+        const result: RequestResultType<PostResponseType> = await HttpUtils.request('/categories/' + this.category + '/' + this.id, 'PUT', true, {
+            title: this.titleCategory?.value,
         });
 
         if (result.redirect) {
@@ -64,6 +64,7 @@ export class CategoryEdit {
         }
 
         if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
+            console.log('ошибка при изменении заголовка');
             return alert('Возникла ошибка при отправке заголовка категории. Обратитесь в поддержку')
         }
 

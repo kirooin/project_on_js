@@ -14,11 +14,11 @@ export class Sidebar {
     readonly locationHref: string | undefined;
 
     constructor() {
-        this.dropDownBtn = document.getElementById('dropdown-btn')
-        this.chevronDown = document.getElementById('chevron-down')
-        this.chevronRight = document.getElementById('chevron-right')
-        this.dropDownMenu = document.getElementById('dropdown-menu')
-        this.mainBtnLayout = document.getElementById('layout-btn-main')
+        this.dropDownBtn = document.getElementById('dropdown-btn') as HTMLButtonElement
+        this.chevronDown = document.getElementById('chevron-down') as HTMLButtonElement
+        this.chevronRight = document.getElementById('chevron-right') as HTMLButtonElement
+        this.dropDownMenu = document.getElementById('dropdown-menu') as HTMLButtonElement
+        this.mainBtnLayout = document.getElementById('layout-btn-main') as HTMLButtonElement
         this.incomeExpenseBtn = document.getElementById('layout-btn-income-expenses')
         this.userName = document.getElementById('user-name')
         this.income = document.getElementById('income')
@@ -29,16 +29,25 @@ export class Sidebar {
 
     };
 
-    initSidebar() {
+    private initSidebar(): void {
         const sidebar = document.querySelector('.sidebar');
         if (!sidebar) {
             return
         }
 
-        const userInfo = AuthUtils.getAuthInfo(AuthUtils.userInfoKey) as UserInfoType;
+        const userInfoString = AuthUtils.getAuthInfo(AuthUtils.userInfoKey) as string | null;
+
+        let userInfo: UserInfoType | null = null;
+        if (userInfoString) {
+            try {
+                userInfo = JSON.parse(userInfoString) as UserInfoType;
+            } catch {
+                console.error('Ошибка парсинга userInfo');
+            }
+        }
 
         if (userInfo && this.userName) {
-            this.userName.innerText = userInfo.name + ' ' + userInfo.lastName;
+            this.userName.innerText = `${userInfo.name} ${userInfo.lastName}`;
         }
 
         switch (this.locationHref) {
@@ -72,7 +81,7 @@ export class Sidebar {
         }
     }
 
-    testClick() {
+    private testClick(): void {
         if (this.dropDownBtn) {
             this.dropDownBtn.addEventListener('click', () => {
                 if (this.dropDownBtn && this.dropDownMenu && this.chevronRight && this.chevronDown && this.dropDownBtn.getAttribute('aria-expanded') === 'true') {

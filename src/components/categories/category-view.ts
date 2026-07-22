@@ -27,7 +27,7 @@ export class CategoryView {
         if (result.redirect) {
             return location.href = result.redirect;
         }
-        if (result.error || !result.response || result.response) {
+        if (result.error || !result.response) {
             return alert('Возникла ошибка при запросе категорий. Обратитесь в поддержку')
         }
 

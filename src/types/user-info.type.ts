@@ -1,5 +1,5 @@
-export interface UserInfoType {
-    name?: string;
-    lastName?: string;
-    id?: number;
+export type UserInfoType = {
+    name: string;
+    lastName: string;
+    id: number;
 }

@@ -1,6 +1,6 @@
 import {HttpUtils} from "../../utils/http-utils";
 import {RequestResultType} from "../../types/request-result.type";
-import {PostRequestType} from "../../types/post-request.type";
+import {PostResponseType} from "../../types/post-response.type";
 
 export class CategoryDelete {
     readonly category: string;
@@ -19,7 +19,7 @@ export class CategoryDelete {
     }
 
    private async deleteCategory(id: string): Promise<void> {
-        const result: RequestResultType<PostRequestType> = await HttpUtils.request('/categories/' + this.category + '/' + id, 'DELETE', true)
+        const result: RequestResultType<PostResponseType> = await HttpUtils.request('/categories/' + this.category + '/' + id, 'DELETE', true)
 
         if (result.redirect) {
             location.href = result.redirect;

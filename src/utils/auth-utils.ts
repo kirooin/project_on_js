@@ -1,12 +1,13 @@
 import config from "../config/config";
 import {RefreshResponseType} from "../types/refresh-response.type";
+import {LoginType} from "../types/login.type";
 
 export class AuthUtils {
     public static accessTokenKey: string = 'accessToken';
-    private static refreshTokenKey: string = 'refreshToken';
+    public static refreshTokenKey: string = 'refreshToken';
     public static userInfoKey: string = 'userInfo';
 
-    public static setAuthInfo(authToken: string, refreshToken: string, userInfo = null): void {
+    public static setAuthInfo(authToken: string, refreshToken: string, userInfo?: LoginType): void {
         localStorage.setItem(this.accessTokenKey, authToken);
         localStorage.setItem(this.refreshTokenKey, refreshToken);
         if (userInfo) {

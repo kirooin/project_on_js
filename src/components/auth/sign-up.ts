@@ -2,48 +2,62 @@ import {HttpUtils} from "../../utils/http-utils";
 import {AuthUtils} from "../../utils/auth-utils";
 
 export class SignUp {
+    readonly emailElement: HTMLInputElement | undefined;
+    readonly passwordElement: HTMLInputElement | undefined;
+    readonly rememberElement: HTMLInputElement | undefined;
+    readonly nameElement: HTMLInputElement | undefined;
+    readonly lastNameElement: HTMLInputElement | undefined;
+    readonly passwordRepeatElement: HTMLInputElement | undefined;
+    readonly commonErrorElement: HTMLElement | undefined;
+    readonly passwordErrorElement: HTMLElement | undefined;
+    readonly processButton: HTMLElement | undefined;
+
     constructor() {
 
         if (AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
-            return location.href = '/#/'
+            location.href = '/#/'
+            return
         }
-        this.nameElement = document.getElementById('name');
-        this.lastNameElement = document.getElementById('last-name');
-        this.emailElement = document.getElementById('email');
-        this.passwordElement = document.getElementById('password');
-        this.passwordRepeatElement = document.getElementById('password-repeat');
-        this.commonErrorElement = document.getElementById('common-error');
-        this.passwordErrorElement = document.getElementById('password-error');
+        this.emailElement = document.getElementById('email') as HTMLInputElement;
+        this.nameElement = document.getElementById('name') as HTMLInputElement;
+        this.lastNameElement = document.getElementById('last-name') as HTMLInputElement;
+        this.passwordElement = document.getElementById('password') as HTMLInputElement;
+        this.passwordRepeatElement = document.getElementById('password-repeat') as HTMLInputElement;
+        this.commonErrorElement = document.getElementById('common-error') as HTMLElement;
+        this.passwordErrorElement = document.getElementById('password-error') as HTMLElement;
 
-        document.getElementById('process-button').addEventListener('click', this.signUp.bind(this));
+        this.processButton = document.getElementById('process-button') as HTMLElement
+        if (this.processButton) {
+            this.processButton.addEventListener('click', this.signUp.bind(this));
+        }
     }
 
-    validateForm() {
+    private validateForm(): boolean {
         let isValid = true;
 
-        if (this.nameElement.value) {
+        if (this.nameElement?.value) {
             this.nameElement.classList.remove('is-invalid');
-            this.nameElement.previousElementSibling.classList.remove('border-red');
+            this.nameElement.previousElementSibling?.classList.remove('border-red');
         } else {
-            this.nameElement.classList.add('is-invalid');
-            this.nameElement.previousElementSibling.classList.add('border-red');
+            this.nameElement?.classList.add('is-invalid');
+            this.nameElement?.previousElementSibling?.classList.add('border-red');
             isValid = false;
         }
 
-        if (this.lastNameElement.value) {
+        if (this.lastNameElement?.value) {
             this.lastNameElement.classList.remove('is-invalid');
-            this.lastNameElement.previousElementSibling.classList.remove('border-red');
+            this.lastNameElement.previousElementSibling?.classList.remove('border-red');
         } else {
-            this.lastNameElement.classList.add('is-invalid');
-            this.lastNameElement.previousElementSibling.classList.add('border-red');
+            this.lastNameElement?.classList.add('is-invalid');
+            this.lastNameElement?.previousElementSibling?.classList.add('border-red');
         }
 
-        if (this.emailElement.value && this.emailElement.value.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+        if (this.emailElement?.value && this.emailElement.value.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
             this.emailElement.classList.remove('is-invalid');
-            this.emailElement.previousElementSibling.classList.remove('border-red');
+            this.emailElement?.previousElementSibling?.classList.remove('border-red');
         } else {
-            this.emailElement.classList.add('is-invalid');
-            this.emailElement.previousElementSibling.classList.add('border-red');
+            this.emailElement?.classList.add('is-invalid');
+            this.emailElement?.previousElementSibling?.classList.add('border-red');
             isValid = false;
         }
 
@@ -52,57 +66,60 @@ export class SignUp {
         }
 
 
-        if (this.passwordRepeatElement.value && this.passwordRepeatElement.value === this.passwordElement.value) {
+        if (this.passwordRepeatElement?.value && this.passwordRepeatElement.value === this.passwordElement?.value) {
             this.passwordRepeatElement.classList.remove('is-invalid');
-            this.passwordRepeatElement.previousElementSibling.classList.remove('border-red');
+            this.passwordRepeatElement?.previousElementSibling?.classList.remove('border-red');
         } else {
-            this.passwordRepeatElement.classList.add('is-invalid');
-            this.passwordRepeatElement.previousElementSibling.classList.add('border-red');
+            this.passwordRepeatElement?.classList.add('is-invalid');
+            this.passwordRepeatElement?.previousElementSibling?.classList.add('border-red');
         }
 
         return isValid;
     }
 
-    checkPassword() {
-        if (!this.passwordElement.value) {
-            this.passwordElement.classList.add('is-invalid');
-            this.passwordElement.previousElementSibling.classList.add('border-red');
+    private checkPassword(): boolean {
+        if (!this.passwordElement?.value && this.passwordErrorElement) {
+            this.passwordElement?.classList.add('is-invalid');
+            this.passwordElement?.previousElementSibling?.classList.add('border-red');
             this.passwordErrorElement.innerText = 'Введите пароль'
             return false;
         } else {
-            this.passwordElement.classList.remove('is-invalid');
-            this.passwordElement.previousElementSibling.classList.remove('border-red');
+            this.passwordElement?.classList.remove('is-invalid');
+            this.passwordElement?.previousElementSibling?.classList.remove('border-red');
         }
 
-        if (!this.passwordElement.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)) {
-            this.passwordElement.classList.add('is-invalid');
-            this.passwordElement.previousElementSibling.classList.add('border-red');
+        if (this.passwordErrorElement && !this.passwordElement?.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)) {
+            this.passwordElement?.classList.add('is-invalid');
+            this.passwordElement?.previousElementSibling?.classList.add('border-red');
             this.passwordErrorElement.innerText = 'Пароль должен содержать минимум 8 символов, включая хотя бы одну заглавную букву, одну строчную букву и одну цифру.'
             return false;
         } else {
-            this.passwordElement.classList.remove('is-invalid');
-            this.passwordElement.previousElementSibling.classList.remove('border-red');
+            this.passwordElement?.classList.remove('is-invalid');
+            this.passwordElement?.previousElementSibling?.classList.remove('border-red');
         }
         return true;
     }
 
-    async signUp() {
-        this.commonErrorElement.style.display = 'none'
-        if (this.validateForm()) {
-            const result = await HttpUtils.request('/signup', 'POST', false, {
-                name: this.nameElement.value,
-                lastName: this.lastNameElement.value,
-                email: this.emailElement.value,
-                password: this.passwordElement.value,
-                passwordRepeat: this.passwordRepeatElement.value,
-            })
-            if (result.error || !result.response || (result.response && (!result.response.user.id || !result.response.user.email || !result.response.user.name || !result.response.user.lastName))) {
-                this.commonErrorElement.style.display = 'block';
-                return;
-            }
-            location.href = '/#/login'
+    private async signUp():Promise<void> {
+        if (this.commonErrorElement) {
+            this.commonErrorElement.style.display = 'none'
+            if (this.validateForm()) {
+                const result = await HttpUtils.request('/signup', 'POST', false, {
+                    name: this.nameElement?.value,
+                    lastName: this.lastNameElement?.value,
+                    email: this.emailElement?.value,
+                    password: this.passwordElement?.value,
+                    passwordRepeat: this.passwordRepeatElement?.value,
+                })
+                if (result.error || !result.response || (result.response && (!result.response.user.id || !result.response.user.email || !result.response.user.name || !result.response.user.lastName))) {
+                    this.commonErrorElement.style.display = 'block';
+                    return;
+                }
+                location.href = '/#/login'
 
+            }
         }
+
     }
 
 }
