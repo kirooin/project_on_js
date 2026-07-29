@@ -106,7 +106,8 @@ export class OperationCreate {
 
         if (
             isValid &&
-            this.amountElement?.value &&
+            this.amountElement &&
+            this.amountElement.value &&
             parseFloat(this.amountElement.value) > 0
         ) {
             if (!this.checkBalance()) {
@@ -114,28 +115,33 @@ export class OperationCreate {
             }
         }
 
-        if (this.dateElement?.value) {
+        if (this.dateElement && this.dateElement.value) {
             this.dateElement.classList.remove('is-invalid');
             (this.dateElement.nextElementSibling as HTMLElement)?.classList?.remove('border-red');
         } else {
-            this.dateElement?.classList.add('is-invalid');
-            (this.dateElement?.nextElementSibling as HTMLElement)?.classList?.add('border-red');
-            isValid = false;
+            if (this.dateElement) {
+                this.dateElement.classList.add('is-invalid');
+                (this.dateElement.nextElementSibling as HTMLElement).classList.add('border-red');
+                isValid = false;
+            }
+
         }
 
-        if (this.commentElement?.value && this.commentElement.value.trim() !== '') {
+        if (this.commentElement && this.commentElement.value && this.commentElement.value.trim() !== '') {
             this.commentElement.classList.remove('is-invalid');
             (this.commentElement.nextElementSibling as HTMLElement)?.classList?.remove('border-red');
         } else {
-            this.commentElement?.classList.add('is-invalid');
-            (this.commentElement?.nextElementSibling as HTMLElement)?.classList?.add('border-red');
-            isValid = false;
+            if (this.commentElement) {
+                this.commentElement.classList.add('is-invalid');
+                (this.commentElement.nextElementSibling as HTMLElement)?.classList?.add('border-red');
+                isValid = false;
+            }
         }
 
         return isValid;
     }
 
-    private checkBalance():  boolean | undefined {
+    private checkBalance(): boolean | undefined {
         if (this.category === 'income') {
             return true;
         }
@@ -148,32 +154,29 @@ export class OperationCreate {
             }
             return true;
         }
-
     }
 
     private async createOperation() {
-        const createdData = {
-            type: this.category,
-            amount: this.amountElement?.value,
-            date: this.dateElement?.value,
-            comment: this.commentElement?.value,
-            category_id: Number(this.categoryElement?.value)
-        }
-        if (this.validateForm()) {
-            const result: RequestResultType<PostResponseType> = await HttpUtils.request('/operations', 'POST', true, createdData)
-
-            if (result.redirect) {
-                location.href = result.redirect;
+        if (this.amountElement && this.dateElement && this.commentElement && this.categoryElement) {
+            const createdData = {
+                type: this.category,
+                amount: this.amountElement.value,
+                date: this.dateElement.value,
+                comment: this.commentElement.value,
+                category_id: Number(this.categoryElement.value)
             }
+            if (this.validateForm()) {
+                const result: RequestResultType<PostResponseType> = await HttpUtils.request('/operations', 'POST', true, createdData)
 
-            if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
-                return alert('Возникла ошибка при создании операции. Обратитесь в поддержку')
+                if (result.redirect) {
+                    location.href = result.redirect;
+                }
+
+                if (result.error || !result.response || (result.response && (result.response.error || !result.response))) {
+                    return alert('Возникла ошибка при создании операции. Обратитесь в поддержку')
+                }
+                location.href = '/#/income-expense'
             }
-
-
-            location.href = '/#/income-expense'
-
         }
     }
-
 }

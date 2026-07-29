@@ -58,8 +58,8 @@ export class OperationsManager {
             }
 
             if (input && input2) {
-                await input.addEventListener('input', this.checkAndExecute.bind(this));
-                await input2.addEventListener('input', this.checkAndExecute.bind(this));
+                input.addEventListener('input', this.checkAndExecute.bind(this));
+                input2.addEventListener('input', this.checkAndExecute.bind(this));
             }
 
         } else {

@@ -76,22 +76,19 @@ export class OperationEdit {
         if (result.error || !result.response || (result.response && !result.response)) {
             return alert('Возникла ошибка при запросе операции. Обратитесь в поддержку')
         }
-
         return this.showInputs(result.response);
     }
 
     private async getCategories(category: string) {
         const result: RequestResultType<CategoryType[]> = await HttpUtils.request('/categories/' + category);
 
-        if (result.error || !result.response || (result.response && (result.response || !result.response))) {
+        if (result.error || !result.response) {
             return alert('Возникла ошибка при запросе категории. Обратитесь в поддержку')
         }
-
         return result.response
     }
 
     private showCategories(categories: CategoryType[]) {
-
         categories.forEach(category => {
             const option = document.createElement('option');
             option.value = String(category.id);
@@ -109,12 +106,15 @@ export class OperationEdit {
             this.amountElement.classList.remove('is-invalid');
             this.amountElement.nextElementSibling.classList.remove('border-red');
         } else {
-            this.amountElement?.classList.add('is-invalid');
-            this.amountElement?.nextElementSibling?.classList.add('border-red');
-            if (this.amountError) {
-                this.amountError.innerText = this.amountElement?.value ? 'Сумма должна быть больше 0' : 'Введите сумму';
-                isValid = false;
+            if (this.amountElement) {
+                this.amountElement.classList.add('is-invalid');
+                this.amountElement.nextElementSibling?.classList.add('border-red');
+                if (this.amountError) {
+                    this.amountError.innerText = this.amountElement?.value ? 'Сумма должна быть больше 0' : 'Введите сумму';
+                    isValid = false;
+                }
             }
+
         }
 
         if (isValid && this.amountElement?.value && parseFloat(this.amountElement.value) > 0) {
@@ -123,22 +123,31 @@ export class OperationEdit {
             }
         }
 
-        if (this.dateElement?.value) {
+        if (this.dateElement && this.dateElement.value) {
             this.dateElement.classList.remove('is-invalid');
             this.dateElement.nextElementSibling?.classList.remove('border-red');
         } else {
-            this.dateElement?.classList.add('is-invalid');
-            this.dateElement?.nextElementSibling?.classList.add('border-red');
-            isValid = false;
+            if (this.dateElement) {
+                this.dateElement.classList.add('is-invalid');
+                this.dateElement.nextElementSibling?.classList.add('border-red');
+                isValid = false;
+            }
+
         }
 
-        if (this.commentElement?.value && this.commentElement.value.trim() !== '') {
+        if (this.commentElement && this.commentElement.value && this.commentElement.value.trim() !== '') {
             this.commentElement.classList.remove('is-invalid');
-            this.commentElement.nextElementSibling?.classList.remove('border-red');
+            if (this.commentElement.nextElementSibling) {
+                this.commentElement.nextElementSibling.classList.remove('border-red');
+            }
         } else {
-            this.commentElement?.classList.add('is-invalid');
-            this.commentElement?.nextElementSibling?.classList.add('border-red');
-            isValid = false;
+            if (this.commentElement) {
+                this.commentElement.classList.add('is-invalid');
+                if (this.commentElement.nextElementSibling) {
+                    this.commentElement.nextElementSibling.classList.add('border-red');
+                }
+                isValid = false;
+            }
         }
 
         return isValid;

@@ -22,7 +22,7 @@ export class CategoryCreate {
     async createCategory(): Promise<void> {
         const title = document.getElementById('title-category') as HTMLInputElement;
         const result: RequestResultType<PostResponseType> = await HttpUtils.request('/categories/' + this.category, 'POST', true, {
-            title: title?.value,
+            title: title.value,
         })
 
         if (result.redirect) {
