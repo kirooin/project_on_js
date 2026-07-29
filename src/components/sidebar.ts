@@ -59,9 +59,15 @@ export class Sidebar {
             case '/income/create':
             case '/income/edit':
                 if (this.dropDownBtn && this.dropDownMenu && this.income) {
-                    this.dropDownBtn.classList.add('active');
-                    this.dropDownMenu.classList.add('active');
-                    this.income.classList.add('active');
+                    this.dropDownBtn.classList.add('bg-primary');
+                    this.dropDownBtn.classList.add('show');
+                    this.dropDownMenu.classList.add('show');
+                    this.chevronDown?.classList.remove('d-none')
+                    this.chevronRight?.classList.add('d-none')
+                    this.dropDownBtn.classList.add('text-white');
+                    this.dropDownMenu.style.marginTop = '-5px';
+                    this.dropDownBtn.classList.remove('text-dark-blue');
+                    this.income.classList.add('active', 'text-white', 'bg-primary');
                 }
                 break;
 
@@ -69,9 +75,15 @@ export class Sidebar {
             case '/expense/create':
             case '/expense/edit':
                 if (this.dropDownBtn && this.dropDownMenu && this.expense) {
-                    this.dropDownBtn.classList.add('active');
-                    this.dropDownMenu.classList.add('active');
-                    this.expense.classList.add('active');
+                    this.dropDownBtn.classList.add('bg-primary');
+                    this.dropDownBtn.classList.add('show');
+                    this.dropDownMenu.classList.add('show');
+                    this.chevronDown?.classList.remove('d-none')
+                    this.chevronRight?.classList.add('d-none')
+                    this.dropDownBtn.classList.add('text-white');
+                    this.dropDownMenu.style.marginTop = '-5px';
+                    this.dropDownBtn.classList.remove('text-dark-blue');
+                    this.expense.classList.add('active', 'text-white');
                 }
                 break;
 

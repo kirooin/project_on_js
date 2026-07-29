@@ -127,11 +127,11 @@
     cursor: pointer;
 }
 
-.income.active,
-.expense.active {
-    color: var(--white) !important;
-    background-color: var(--primary-light) !important;
-}
+/*.income.active,*/
+/*.expense.active {*/
+/*    color: var(--white) !important;*/
+/*    background-color: var(--primary-light) !important;*/
+/*}*/
 
 .main-btn {
     transition: all 0.3s ease;
