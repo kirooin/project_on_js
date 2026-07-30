@@ -17,7 +17,7 @@ export class OperationDelete {
     private async deleteOperation(): Promise<void> {
         const result:RequestResultType<DeleteResponseType> = await HttpUtils.request('/operations/' + this.id, 'DELETE', true)
 
-        if (result.error || !result.response || (result.response && (result.response.error || !result.response || result.response.message))) {
+        if (result.error || !result.response || (result.response && (result.response.error || !result.response || !result.response.message))) {
             return alert('Возникла ошибка при удалении операции. Обратитесь в поддержку')
         }
 

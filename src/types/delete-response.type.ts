@@ -1,4 +1,4 @@
 export type DeleteResponseType = {
-    error: string;
+    error?: string;
     message: string;
 }

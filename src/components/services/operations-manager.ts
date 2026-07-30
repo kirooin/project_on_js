@@ -26,8 +26,8 @@ export class OperationsManager {
         this.startSpan = document.getElementById('startDateText')
         this.endSpan = document.getElementById('endDateText');
 
-        this.input = document.getElementById('input-1') as HTMLInputElement
-        this.input2 = document.getElementById('input-2') as HTMLInputElement
+        this.input = CommonUtils.createDateInput('input-1') as HTMLInputElement
+        this.input2 = CommonUtils.createDateInput('input-2') as HTMLInputElement
 
 
         this.initPeriodButtons(this.dateFilterFrom)
@@ -50,16 +50,14 @@ export class OperationsManager {
 
     public async getOperations(period: string) {
         if (period === 'interval') {
-            const input: HTMLElement = CommonUtils.createDateInput('input-1')
-            const input2: HTMLElement = CommonUtils.createDateInput('input-2')
-            if (this.startSpan && this.endSpan && this.startSpan.parentNode && this.endSpan.parentNode) {
-                this.startSpan.parentNode.replaceChild(input, this.startSpan);
-                this.endSpan.parentNode.replaceChild(input2, this.endSpan);
+            if (this.startSpan && this.endSpan && this.startSpan.parentNode && this.endSpan.parentNode && this.input && this.input2) {
+                this.startSpan.parentNode.replaceChild(this.input, this.startSpan);
+                this.endSpan.parentNode.replaceChild(this.input2, this.endSpan);
             }
 
-            if (input && input2) {
-                input.addEventListener('input', this.checkAndExecute.bind(this));
-                input2.addEventListener('input', this.checkAndExecute.bind(this));
+            if (this.input && this.input2) {
+                this.input.addEventListener('input', this.checkAndExecute.bind(this));
+                this.input2.addEventListener('input', this.checkAndExecute.bind(this));
             }
 
         } else {
@@ -86,8 +84,7 @@ export class OperationsManager {
     private async checkAndExecute(): Promise<any> {
         if (this.input && this.input2 && this.input.value && this.input2.value) {
             const result: RequestResultType = await HttpUtils.request('/operations?period=interval&dateFrom=' + this.input.value + '&dateTo=' + this.input2.value)
-
-            if (result.error || !result.response || (result.response && !result.response)) {
+            if (result.error || !result.response) {
                 alert('Возникла ошибка при запросе операций. Обратитесь в поддержку')
                 return
             }
